@@ -78,8 +78,6 @@
                 docked: false,
                 open: false,
                 position: 'left',
-                fluid: true,
-                images:{}
             }
         },
     }

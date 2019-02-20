@@ -6,7 +6,6 @@
 
             </mu-row>
         </mu-container>
-
     </div>
 </template>
 
@@ -19,15 +18,9 @@
         components: {Header},
         data() {
             return {
-                docked: false,
-                open: false,
-                position: 'left',
                 fluid: true,
                 images: {}
             }
-        },
-        comments: {
-            Header,
         },
         created() {
             http.get('/api/c').then(res => {
