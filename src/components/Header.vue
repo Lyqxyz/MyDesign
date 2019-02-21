@@ -38,12 +38,19 @@
             </mu-menu>
         </mu-appbar>
         <mu-drawer :open.sync="open" :docked="docked" :right="position === 'right'">
-            <mu-list><mu-list-item button>
-                <mu-list-item-action>
-                    <mu-icon value="home"></mu-icon>
-                </mu-list-item-action>
-                <mu-list-item-title>首页</mu-list-item-title>
-            </mu-list-item>
+            <mu-list>
+                <mu-list-item button>
+                    <mu-avatar color="indigo">
+                        <mu-icon value="account_circle"></mu-icon>
+                    </mu-avatar>
+                </mu-list-item>
+                <mu-list-item button>
+
+                    <mu-list-item-action>
+                        <mu-icon value="home"></mu-icon>
+                    </mu-list-item-action>
+                    <mu-list-item-title>首页</mu-list-item-title>
+                </mu-list-item>
                 <mu-list-item button>
                     <mu-list-item-action>
                         <mu-icon value="grade"></mu-icon>
