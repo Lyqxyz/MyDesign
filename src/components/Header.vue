@@ -4,7 +4,7 @@
             <mu-button icon slot="left" @click="open = !open">
                 <mu-icon value="menu"></mu-icon>
             </mu-button>
-            Title
+            首页
             <mu-menu slot="right">
                 <mu-button icon>
                     <mu-icon value="more_vert"></mu-icon>
@@ -44,8 +44,7 @@
                         <mu-icon value="account_circle"></mu-icon>
                     </mu-avatar>
                 </mu-list-item>
-                <mu-list-item button>
-
+                <mu-list-item button :to="{name:'index'}">
                     <mu-list-item-action>
                         <mu-icon value="home"></mu-icon>
                     </mu-list-item-action>
