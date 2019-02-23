@@ -1,6 +1,6 @@
 <template>
-    <mu-row>
-        <mu-appbar style="width: 100%;" color="primary">
+    <mu-row v-scroll="scroll">
+        <mu-appbar style="width: 100%" :class="{top:isActive}" color="primary">
             <mu-button icon slot="left" @click="open = !open">
                 <mu-icon value="menu"></mu-icon>
             </mu-button>
@@ -10,12 +10,6 @@
                     <mu-icon value="more_vert"></mu-icon>
                 </mu-button>
                 <mu-list slot="content">
-                    <mu-list-item button :ripple="false">
-                        <mu-list-item-action>
-                            <mu-icon value="home"></mu-icon>
-                        </mu-list-item-action>
-                        <mu-list-item-title>首页</mu-list-item-title>
-                    </mu-list-item>
                     <mu-list-item button :ripple="false">
                         <mu-list-item-action>
                             <mu-icon value="grade"></mu-icon>
@@ -81,14 +75,26 @@
         name: "Header",
         data() {
             return {
+                isActive: true,
                 docked: false,
                 open: false,
                 position: 'left',
             }
         },
+        methods:{
+            scroll(){
+                if(window.scrollY>=500){
+                    this.isActive=true
+                }else{
+                    this.isActive=false
+                }
+            }
+        }
     }
 </script>
 
 <style scoped>
-
+    .top{
+        position: fixed;
+    }
 </style>

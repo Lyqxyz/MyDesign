@@ -42,7 +42,7 @@
         <mu-bottom-sheet :open.sync="open">
             <mu-list @item-click="closeBottomSheet">
                 <mu-sub-header>选择一个</mu-sub-header>
-                <mu-list-item button :to="{name:'PublishGoods'}">
+                <mu-list-item button :to="{name:'PublishBook'}">
                     <mu-list-item-action>
                         <mu-icon value="grade" color="orange"></mu-icon>
                     </mu-list-item-action>

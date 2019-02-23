@@ -1,18 +1,16 @@
 <template>
     <div id="app">
-        <mu-container class="button-wrapper">
-            <Header></Header>
-            <Cen></Cen>
-            <router-view name="foot"></router-view>
-        </mu-container>
+        <router-view name="header"></router-view>
+        <router-view name="center"></router-view>
+        <router-view name="footer"></router-view>
     </div>
 </template>
 
 <script>
     import http from './api'
-    import Header from "./components/Header";
-    import Cen from './components/Center'
-    import Goods from './components/Goods'
+    import Header from "./components/index/Header";
+    import Cen from './components/index/Center'
+    import Goods from './components/index/Goods'
     export default {
         name: 'app',
         components: {Goods,Header,Cen},
@@ -36,12 +34,9 @@
             },
             get() {
                 http.get('/api/a').then(res => {
-
                     console.log(res)
                 })
             },
-
-
 
         },
         computed: {}

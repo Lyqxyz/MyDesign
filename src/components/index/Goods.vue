@@ -18,8 +18,8 @@
 
 <script>
 
-    import image from '../assets/images/carousel1.jpg'
-    import image2 from '../assets/images/carousel2.jpg'
+    import image from '../../assets/images/carousel1.jpg'
+    import image2 from '../../assets/images/carousel2.jpg'
     export default {
         name: "Goods",
         data(){

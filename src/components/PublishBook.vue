@@ -1,14 +1,6 @@
 <template>
-    <mu-container class="button-wrapper">
-        <mu-row>
-            <mu-appbar style="width: 100%;" color="primary">
-                <mu-button icon slot="left">
-                    <mu-icon value="menu"></mu-icon>
-                </mu-button>
-                发布
-                <mu-button flat slot="right">LOGIN</mu-button>
-            </mu-appbar>
-        </mu-row>
+    <mu-container :fluid="fluid">
+       <CommonHeader title="发布书籍"></CommonHeader>
         <mu-row>
             <mu-form :model="form" class="mu-demo-form" :label-position="labelPosition" label-width="100">
                 <mu-form-item prop="input" label="Input">
@@ -42,19 +34,19 @@
                     <mu-text-field multi-line :rows="3" :rows-max="6" v-model="form.textarea"></mu-text-field>
                 </mu-form-item>
             </mu-form>
-
-
+            <mu-button>发布</mu-button>
         </mu-row>
     </mu-container>
 </template>
 
 <script>
+    import CommonHeader from './common/Header'
     export default {
         name: "PublishGoods",
+        components:{CommonHeader},
         data(){
-
             return {
-
+                fluid:true,
                 options: [
                     'Option 1', 'Option 2', 'Option 3', 'Option 4',
                     'Option 5', 'Option 6', 'Option 7', 'Option 8',
@@ -71,6 +63,12 @@
                     slider: 30,
                     textarea: ''
                 }
+            }
+        },
+        methods:{
+            goback(){
+                console.log(this.$router);
+                this.$router.go(-1)
             }
         }
     }
