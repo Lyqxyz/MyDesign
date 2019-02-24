@@ -14,19 +14,19 @@
                         <mu-list-item-action>
                             <mu-icon value="grade"></mu-icon>
                         </mu-list-item-action>
-                        <mu-list-item-title>Stared</mu-list-item-title>
+                        <mu-list-item-title>分享</mu-list-item-title>
                     </mu-list-item>
                     <mu-list-item button :ripple="false">
                         <mu-list-item-action>
                             <mu-icon value="send"></mu-icon>
                         </mu-list-item-action>
-                        <mu-list-item-title>Sent mail</mu-list-item-title>
+                        <mu-list-item-title>消息</mu-list-item-title>
                     </mu-list-item>
                     <mu-list-item button :ripple="false">
                         <mu-list-item-action>
                             <mu-icon value="drafts"></mu-icon>
                         </mu-list-item-action>
-                        <mu-list-item-title>Drafts</mu-list-item-title>
+                        <mu-list-item-title>退出</mu-list-item-title>
                     </mu-list-item>
                 </mu-list>
             </mu-menu>
@@ -43,24 +43,42 @@
                         <mu-icon value="home"></mu-icon>
                     </mu-list-item-action>
                     <mu-list-item-title>首页</mu-list-item-title>
+                    <mu-list-item-action>
+                        <mu-button icon>
+                            <mu-icon value="info"></mu-icon>
+                        </mu-button>
+                    </mu-list-item-action>
                 </mu-list-item>
+
                 <mu-list-item button>
                     <mu-list-item-action>
                         <mu-icon value="grade"></mu-icon>
                     </mu-list-item-action>
-                    <mu-list-item-title>Stared</mu-list-item-title>
+                    <mu-list-item-title>我的资料</mu-list-item-title>
+                    <mu-list-item-action>
+                        <mu-button icon>
+                            <mu-icon value="info"></mu-icon>
+                        </mu-button>
+                    </mu-list-item-action>
+                </mu-list-item>
+
+                <mu-list-item button>
+                    <mu-list-item-action>
+                        <mu-icon value="grade"></mu-icon>
+                    </mu-list-item-action>
+                    <mu-list-item-title>我发布的</mu-list-item-title>
                 </mu-list-item>
                 <mu-list-item button>
                     <mu-list-item-action>
                         <mu-icon value="send"></mu-icon>
                     </mu-list-item-action>
-                    <mu-list-item-title>Sent mail</mu-list-item-title>
+                    <mu-list-item-title>购物车</mu-list-item-title>
                 </mu-list-item>
                 <mu-list-item button>
                     <mu-list-item-action>
                         <mu-icon value="drafts"></mu-icon>
                     </mu-list-item-action>
-                    <mu-list-item-title>Drafts</mu-list-item-title>
+                    <mu-list-item-title>订单</mu-list-item-title>
                 </mu-list-item>
                 <mu-list-item @click="open = false" button>
                     <mu-list-item-title>关闭</mu-list-item-title>

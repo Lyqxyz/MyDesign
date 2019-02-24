@@ -2,36 +2,31 @@
     <mu-container>
         <common-header title="发布闲置"></common-header>
 
-        <mu-form :model="form" class="mu-demo-form" :label-position="labelPosition" label-width="100">
-            <mu-form-item prop="input" label="" help-text="">
-                <mu-text-field v-model="form.input"></mu-text-field>
+        <mu-form ref="goods" :model="goods" class="mu-demo-form" :label-position="labelPosition" label-width="100">
+            <mu-form-item labelWidth="100%" prop="input" label="标题 品类品牌型都是买家喜欢搜索的" help-text="">
+                <mu-text-field v-model="goods.input"></mu-text-field>
             </mu-form-item>
-            <mu-form-item prop="select" label="Select">
-                <mu-select v-model="form.select">
+
+            <mu-form-item labelWidth="100%" prop="textarea" label="描述宝贝的转手原因 入手渠道和使用感受">
+                <mu-text-field multi-line :rows="4" :rows-max="6" v-model="goods.textarea"></mu-text-field>
+            </mu-form-item>
+
+            <mu-form-item prop="select" label="分类">
+                <mu-select v-model="goods.select">
                     <mu-option v-for="option,index in options" :key="option" :label="option" :value="option"></mu-option>
                 </mu-select>
             </mu-form-item>
-            <mu-form-item prop="date" label="Date Time">
-                <mu-date-input v-model="form.date" type="dateTime" actions></mu-date-input>
+
+            <mu-form-item prop="slider" label="新旧">
+                <mu-slider v-model="goods.slider" :max="max" :min="min"></mu-slider>
             </mu-form-item>
-            <mu-form-item prop="radio" label="Radio">
-                <mu-radio v-model="form.radio" value="male" label="Male"></mu-radio>
-                <mu-radio v-model="form.radio" value="female" label="Female"></mu-radio>
+
+            <mu-form-item labelWidth="100%" prop="input" label="价格" help-text="">
+                <mu-text-field v-model="goods.input"></mu-text-field>
             </mu-form-item>
-            <mu-form-item prop="checkbox" label="Checkbox">
-                <mu-checkbox v-model="form.checkbox" value="eat" label="Eat"></mu-checkbox>
-                <mu-checkbox v-model="form.checkbox" value="sleep" label="Sleep"></mu-checkbox>
-                <mu-checkbox v-model="form.checkbox" value="run" label="Run"></mu-checkbox>
-                <mu-checkbox v-model="form.checkbox" value="movie" label="Movie"></mu-checkbox>
-            </mu-form-item>
-            <mu-form-item prop="switch" label="Switch">
-                <mu-switch v-model="form.switch"></mu-switch>
-            </mu-form-item>
-            <mu-form-item prop="slider" label="Slider">
-                <mu-slider v-model="form.slider"></mu-slider>
-            </mu-form-item>
-            <mu-form-item prop="textarea" label="Textarea">
-                <mu-text-field multi-line :rows="3" :rows-max="6" v-model="form.textarea"></mu-text-field>
+
+            <mu-form-item>
+                <mu-button color="primary" @click="submit">确认发布</mu-button>
             </mu-form-item>
         </mu-form>
 
@@ -46,22 +41,27 @@
         name: "PublishGoods",
         data(){
             return {
+                max:100,
+                min:1,
                 options: [
                     'Option 1', 'Option 2', 'Option 3', 'Option 4',
                     'Option 5', 'Option 6', 'Option 7', 'Option 8',
                     'Option 9', 'Option 10'
                 ],
                 labelPosition: 'top',
-                form: {
-                    input: '',
+                goods: {
+                    title: '',
                     select: '',
-                    date: '',
-                    radio: '',
-                    checkbox: [],
-                    switch: false,
-                    slider: 30,
+                    slider: 1,
                     textarea: ''
                 }
+            }
+        },
+        methods:{
+            submit(){
+                this.$refs.goods.validate().then((result) => {
+                    console.log('form valid: ', result)
+                });
             }
         },
         components:{CommonHeader}
