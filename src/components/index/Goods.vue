@@ -4,10 +4,10 @@
             <mu-grid-list>
                 <mu-sub-header>全部商品</mu-sub-header>
                 <mu-grid-tile v-for="(tile, index) in list1" :key="index">
-                    <img :src="tile.image" >
+                    <img :src="tile.image" @click="goDetails(index)">
                     <span slot="title">{{tile.title}}</span>
                     <span slot="subTitle">by <b>{{tile.author}}</b></span>
-                    <mu-button slot="action" icon>
+                    <mu-button slot="action" icon @click="goDetails(index)">
                         <mu-icon value="star_border"></mu-icon>
                     </mu-button>
                 </mu-grid-tile>
@@ -79,6 +79,10 @@
                     }
 
                 }, 2000)
+            },
+            goDetails(index){
+                this.$router.push({name:'Details',params:{id:index}})
+
             }
         }
     }

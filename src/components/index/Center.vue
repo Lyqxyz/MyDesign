@@ -48,7 +48,7 @@
                     </mu-list-item-action>
                     <mu-list-item-title>发布书籍</mu-list-item-title>
                 </mu-list-item>
-                <mu-list-item button>
+                <mu-list-item button :to="{name:'PublishGoods'}">
                     <mu-list-item-action>
                         <mu-icon value="inbox" color="blue"></mu-icon>
                     </mu-list-item-action>

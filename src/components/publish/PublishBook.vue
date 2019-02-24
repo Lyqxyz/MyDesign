@@ -42,7 +42,7 @@
 </template>
 
 <script>
-    import CommonHeader from './common/Header'
+    import CommonHeader from '../common/Header'
     export default {
         name: "PublishGoods",
         components:{CommonHeader},
