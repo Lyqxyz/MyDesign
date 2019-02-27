@@ -6,6 +6,7 @@ import AddImage from '../components/addImage/AddImage'
 import PublishGoods from '../components/publish/PublishGoods'
 
 import Details from '../components/details/Details'
+import AllClass from '../components/class/AllClass'
 
 export default [
     {
@@ -21,6 +22,7 @@ export default [
     {path:'/PublishBook/',components:{'header':PublishBook},name:'PublishBook'},
     {path:'/PublishGoods/',components:{'header':PublishGoods},name:'PublishGoods'},
     {path:'/AddImage/:id',components:{'header':AddImage},name:'AddImage'},
+    {path:'/allClass',components:{'header':AllClass},name:'AllClass'},
     {path :'*',redirect:'/'}
 
 ]

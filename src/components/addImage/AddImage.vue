@@ -8,6 +8,7 @@
 <script>
     import CommonHeader from '../common/Header'
     import FileUpload from '../common/FileUpload'
+    import Toast from 'muse-ui-toast/dist/muse-ui-toast.js'
     export default {
         name: "AddImage",
         data(){
@@ -17,7 +18,6 @@
         },
         components: {FileUpload, CommonHeader},
         methods:{
-
         }
     }
 </script>

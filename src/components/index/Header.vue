@@ -22,11 +22,11 @@
                         </mu-list-item-action>
                         <mu-list-item-title>消息</mu-list-item-title>
                     </mu-list-item>
-                    <mu-list-item button :ripple="false">
+                    <mu-list-item button :ripple="false" :to="{name:'AllClass'}">
                         <mu-list-item-action>
                             <mu-icon value="drafts"></mu-icon>
                         </mu-list-item-action>
-                        <mu-list-item-title>退出</mu-list-item-title>
+                        <mu-list-item-title>分类</mu-list-item-title>
                     </mu-list-item>
                 </mu-list>
             </mu-menu>
