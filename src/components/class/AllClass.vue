@@ -4,7 +4,7 @@
         <mu-paper :z-depth="1" class="demo-list-wrap">
             <mu-list>
                 <mu-sub-header>所有分类</mu-sub-header>
-                <mu-list-item @click="go(item.id)" :key="item.id" avatar button :ripple="false" v-for="item in classInfo">
+                <mu-list-item @click="go(item)" :key="item.id" avatar button :ripple="false" v-for="item in classInfo">
                     <mu-list-item-action>
                         <mu-avatar>
                             <img :src="item.img">
@@ -45,7 +45,6 @@
             }
            console.log(this.classInfo)
 
-
         },
         mounted(){
 
@@ -57,8 +56,8 @@
             }
         },
         methods:{
-            go(id){
-                console.log(id)
+            go({name,id}){
+                this.$router.push({name:'Search',params:{id},query:{name}})
             }
         }
     }

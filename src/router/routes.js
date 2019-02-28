@@ -8,6 +8,9 @@ import PublishGoods from '../components/publish/PublishGoods'
 import Details from '../components/details/Details'
 import AllClass from '../components/class/AllClass'
 
+import Search from '../components/search/Search'
+
+import MyPublish from '../components/myPublish/MyPublish'
 export default [
     {
         path:'/',
@@ -18,6 +21,8 @@ export default [
         },
         name:'index'
     },
+    {path:'/MyPushlish',components:{'header':MyPublish},name:'MyPublish'},
+    {path:'/search/:id',components:{'header':Search},name:'Search'},
     {path:'/showDetails/:id',components:{'header':Details},name:'Details'},
     {path:'/PublishBook/',components:{'header':PublishBook},name:'PublishBook'},
     {path:'/PublishGoods/',components:{'header':PublishGoods},name:'PublishGoods'},

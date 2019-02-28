@@ -10,19 +10,19 @@
                     <mu-icon value="more_vert"></mu-icon>
                 </mu-button>
                 <mu-list slot="content">
-                    <mu-list-item button :ripple="false">
+                    <mu-list-item button :ripple="ripple">
                         <mu-list-item-action>
                             <mu-icon value="grade"></mu-icon>
                         </mu-list-item-action>
                         <mu-list-item-title>分享</mu-list-item-title>
                     </mu-list-item>
-                    <mu-list-item button :ripple="false">
+                    <mu-list-item button :ripple="ripple">
                         <mu-list-item-action>
                             <mu-icon value="send"></mu-icon>
                         </mu-list-item-action>
                         <mu-list-item-title>消息</mu-list-item-title>
                     </mu-list-item>
-                    <mu-list-item button :ripple="false" :to="{name:'AllClass'}">
+                    <mu-list-item button :ripple="ripple" :to="{name:'AllClass'}">
                         <mu-list-item-action>
                             <mu-icon value="drafts"></mu-icon>
                         </mu-list-item-action>
@@ -62,7 +62,7 @@
                     </mu-list-item-action>
                 </mu-list-item>
 
-                <mu-list-item button>
+                <mu-list-item button :to="{name:'MyPublish'}">
                     <mu-list-item-action>
                         <mu-icon value="grade"></mu-icon>
                     </mu-list-item-action>
@@ -97,6 +97,7 @@
                 docked: false,
                 open: false,
                 position: 'left',
+                ripple:true,
             }
         },
         methods:{
