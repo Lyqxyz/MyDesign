@@ -68,7 +68,7 @@
                     </mu-list-item-action>
                     <mu-list-item-title>我发布的</mu-list-item-title>
                 </mu-list-item>
-                <mu-list-item button>
+                <mu-list-item button :to="{name:'ShopCar'}">
                     <mu-list-item-action>
                         <mu-icon value="send"></mu-icon>
                     </mu-list-item-action>

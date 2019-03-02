@@ -4,13 +4,12 @@ import Header from '../components/index/Header'
 import Center from '../components/index/Center'
 import AddImage from '../components/addImage/AddImage'
 import PublishGoods from '../components/publish/PublishGoods'
-
 import Details from '../components/details/Details'
 import AllClass from '../components/class/AllClass'
-
 import Search from '../components/search/Search'
-
 import MyPublish from '../components/myPublish/MyPublish'
+import ShopCar from '../components/shopcar/ShopCar'
+
 export default [
     {
         path:'/',
@@ -21,6 +20,7 @@ export default [
         },
         name:'index'
     },
+    {path:'/ShopCar',components:{'header':ShopCar},name:'ShopCar'},
     {path:'/MyPushlish',components:{'header':MyPublish},name:'MyPublish'},
     {path:'/search/:id',components:{'header':Search},name:'Search'},
     {path:'/showDetails/:id',components:{'header':Details},name:'Details'},

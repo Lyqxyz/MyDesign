@@ -48,7 +48,6 @@
                 }
                 this.lists.push(list)
             }
-
         },
         methods:{
             load () {
@@ -67,7 +66,12 @@
                     }
 
                 }, 2000)
+            },
+            goDetails(index){
+
+                this.$router.push({name:'Details',params:{id:index}})
             }
+
         },
         computed:{
 
