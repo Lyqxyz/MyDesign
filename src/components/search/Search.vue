@@ -20,8 +20,7 @@
 <script>
     import CommonHeader from '../common/Header'
 
-    import {Mock,Random} from '../../mock'
-
+    import http from '../../api'
 
     export default {
         name: "Search",
@@ -36,36 +35,31 @@
         },
         created(){
 
-            let {name} =this.$route.query
-            this.title = name;
-            for (let i = 1 ;i<10;i++){
+            let {className} =this.$route.query
 
-                let list = {
-                    id:Mock.mock('@integer()'),
-                    title:Mock.mock('@string'),
-                    author: Mock.mock('@first'),
-                    image:Random.image('50x50', '#894FC4', '#FFF', 'png', 'T')
-                }
-                this.lists.push(list)
-            }
+            let {id}=this.$route.params
+
+            this.title = className;
+
+            http.get(`/index/class/${id}`).then(res=>{
+                let {list} = res.data.info.data;
+                this.lists=list;
+            }).catch(err=>{
+
+
+
+            })
+
+
+            console.log(id)
+
         },
         methods:{
             load () {
+
                 this.loading = true;
-                setTimeout(() => {
-                    this.loading = false;
-                    for (let i = 1 ;i<5;i++){
 
-                        let list = {
-                            id:Mock.mock('@integer()'),
-                            title:Mock.mock('@string'),
-                            author: Mock.mock('@first'),
-                            image:Random.image('50x50', '#894FC4', '#FFF', 'png', 'T')
-                        }
-                        this.lists.push(list)
-                    }
 
-                }, 2000)
             },
             goDetails(index){
 

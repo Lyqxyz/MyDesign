@@ -53,8 +53,8 @@
                 if(files.length>4){
                     this.openNormalSnackbar()
                 }else{
-                    this.del()
 
+                    this.del()
                     for (let i = 0;i<files.length;i++){
                         let filereader =new FileReader()
                         let DataURL = filereader.readAsDataURL(files[i])

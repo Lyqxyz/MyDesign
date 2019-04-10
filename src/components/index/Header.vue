@@ -74,6 +74,13 @@
                     </mu-list-item-action>
                     <mu-list-item-title>购物车</mu-list-item-title>
                 </mu-list-item>
+
+                <mu-list-item button :to="{name:'AllClass'}">
+                    <mu-list-item-action>
+                        <mu-icon value="grade"></mu-icon>
+                    </mu-list-item-action>
+                    <mu-list-item-title>分类</mu-list-item-title>
+                </mu-list-item>
                 <mu-list-item button>
                     <mu-list-item-action>
                         <mu-icon value="drafts"></mu-icon>

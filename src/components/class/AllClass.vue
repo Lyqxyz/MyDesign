@@ -5,12 +5,12 @@
             <mu-list>
                 <mu-sub-header>所有分类</mu-sub-header>
                 <mu-list-item @click="go(item)" :key="item.id" avatar button :ripple="false" v-for="item in classInfo">
-                    <mu-list-item-action>
-                        <mu-avatar>
-                            <img :src="item.img">
-                        </mu-avatar>
-                    </mu-list-item-action>
-                    <mu-list-item-title>{{item.name}}</mu-list-item-title>
+                    <!--<mu-list-item-action>-->
+                        <!--<mu-avatar>-->
+                            <!--<img :src="item.img">-->
+                        <!--</mu-avatar>-->
+                    <!--</mu-list-item-action>-->
+                    <mu-list-item-title>{{item.className}}</mu-list-item-title>
                     <mu-list-item-action>
                         <mu-icon value="chat_bubble"></mu-icon>
                     </mu-list-item-action>
@@ -24,30 +24,24 @@
 <script>
     import CommonHeader from '../common/Header'
     import http from '../../api'
-
-    import {Mock,Random} from '../../mock'
     export default {
 
         name: "AllClass",
         components: {CommonHeader},
         created(){
 
-            for (let i = 1 ;i<5;i++){
+            http.get('/class/withParentClass').then(res=>{
 
-                let Class = {
-                    id:Mock.mock('@integer()'),
-                    name:Mock.mock('@string'),
-                    img:Random.image('50x50', '#894FC4', '#FFF', 'png', 'T')
-                }
+                this.classInfo=res.data.info.data;
+                console.log(res)
 
-                this.classInfo.push(Class)
+            }).catch(err=>{
 
-            }
-           console.log(this.classInfo)
+
+            })
 
         },
         mounted(){
-
 
         },
         data(){
@@ -56,8 +50,10 @@
             }
         },
         methods:{
-            go({name,id}){
-                this.$router.push({name:'Search',params:{id},query:{name}})
+            go({className,classId}){
+
+
+                this.$router.push({name:'Search',params:{id:classId},query:{className}})
             }
         }
     }
