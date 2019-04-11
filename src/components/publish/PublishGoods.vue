@@ -108,7 +108,6 @@
         methods:{
             submit(){
 
-                // this.$router.push({name:'AddImage',params:{id:'98145150634557440'},query:{isBook:true}})
 
                 this.$refs.goods.validate().then((result) => {
 
@@ -124,14 +123,32 @@
 
                     if(result){
 
+                        http.post('/goods/add',a).then(res=>{
+
+                            let {code,message,info} = res.data
+                            if(code==='-1'){
+
+                                Message.alert(message,'消息提示')
+                            }else{
+
+                                let goodsId=info.goods.goodsId
+                                this.$router.push({name:'AddImage',params:{id:goodsId},query:{isBook:false}})
+
+                            }
+
+
+                            console.log(res.data)
+                        }).catch(err=>{
+
+                            Message.alert('请检查网络是否连接','消息提示')
+                        })
+
 
                     }else{
 
-
+                        Message.alert('请检查参数','消息提示')
 
                     }
-
-
 
                 });
             },
