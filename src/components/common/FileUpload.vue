@@ -1,9 +1,9 @@
 <template>
     <div id="con">
+        <p class="t">图片大小不能超过1M不能低于10k</p>
         <img v-if="isShow" src="http://dummyimage.com/170x200/ffcc33/FFF.png&text=!" alt="式样">
 
         <img width="170" height="200" v-for="(item,index) in images" :src="item" alt="" :key="index">
-
         <label for="upload">
             <mu-icon value="add" size="100"></mu-icon>
         </label>
@@ -38,6 +38,11 @@
                 type:String,
                 required:true
             },
+            upload:{
+
+                type: Function,
+
+            }
         },
         computed:{
             isShow(){
@@ -46,14 +51,15 @@
         },
         methods:{
             fileChange(e){
+
                 let files= e.target.files;
 
                 this.files=files
-
                 if(files.length>4){
-                    this.openNormalSnackbar()
-                }else{
 
+                    this.openNormalSnackbar()
+
+                }else{
                     this.del()
                     for (let i = 0;i<files.length;i++){
                         let filereader =new FileReader()
@@ -74,7 +80,7 @@
             },
             uploadFile(e){
 
-                console.log(this.files)
+                this.upload(this.files)
 
             },
             del(){
@@ -94,6 +100,13 @@
     img{
 
         box-shadow: aqua;
+    }
+    .t{
+
+        color: red;
+        font-size: 20px;
+        text-align: center;
+        margin: 5px;
 
     }
 

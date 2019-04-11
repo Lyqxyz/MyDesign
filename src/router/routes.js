@@ -21,7 +21,7 @@ export default [
         name:'index'
     },
     {path:'/ShopCar',components:{'header':ShopCar},name:'ShopCar'},
-    {path:'/MyPushlish',components:{'header':MyPublish},name:'MyPublish'},
+    {path:'/MyPushlish/:id',components:{'header':MyPublish},name:'MyPublish'},
     {path:'/search/:id',components:{'header':Search},name:'Search'},
     {path:'/showDetails/:id',components:{'header':Details},name:'Details'},
     {path:'/PublishBook/',components:{'header':PublishBook},name:'PublishBook'},

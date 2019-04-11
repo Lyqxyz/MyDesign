@@ -3,7 +3,7 @@
         <CommonHeader title="发布书籍"></CommonHeader>
         <mu-row>
             <mu-form ref="form" :model="book" class="mu-demo-form" :label-position="labelPosition" label-width="100">
-                <mu-form-item prop="bookName" label="名字" :rules="bookNameRules">
+                <mu-form-item prop="bookName" label="书名" :rules="bookNameRules">
                     <mu-text-field v-model="book.bookName"></mu-text-field>
                 </mu-form-item>
                 <mu-form-item prop="bookIsbn" label="ISBN" :rules="bookIsbnRules">
@@ -44,6 +44,13 @@
 <script>
     import CommonHeader from '../common/Header'
     import http from '../../api'
+
+    import storage from '../../assets/utils/StorageUtils'
+
+    import Qs from 'qs'
+
+    import Message from 'muse-ui-message/dist/muse-ui-message'
+
     export default {
         name: "PublishGoods",
         components:{CommonHeader},
@@ -53,11 +60,9 @@
 
                 this.options=res.data.info.data;
 
-                console.log(this.options)
-
             }).catch(err=>{
 
-
+                Message.alert('服务器错误','消息提示')
             })
 
         },
@@ -104,17 +109,46 @@
         methods:{
             submit () {
                 this.$refs.form.validate().then((result) => {
+
                     console.log('form valid: ', result)
 
                     if(result){
 
-                    }else{
+                        let user = storage.getStorage('user',true)
 
+                        let {userId}= user;
+
+                        this.book.uid=userId;
+
+                        this.book.bookNao = Math.round(this.book.bookNao)
+
+                        let a =Qs.stringify(this.book)
+
+                        http.post('/book/add',a).then(res=>{
+
+                            let {code,info,message} = res.data;
+
+                            if(code==='-1'){
+
+                                Message.alert(message+'请检查参数！！！','消息提示')
+
+                            }else{
+
+                                let {bookId} =info.book;
+
+                                this.$router.push({name:'AddImage',params:{id:bookId},query:{isBook:true}})
+
+                            }
+                        }).catch(err=>{
+
+                            Message.alert('服务器错误','消息提示')
+                        })
+
+                    }else{
+                        Message.alert('请填写完整','消息提示')
 
                     }
 
-                    console.log(this.book)
-                    //this.$router.push({name:'AddImage',params:{id:50},query:{isBook:true}})
                 });
             },
             clear () {
