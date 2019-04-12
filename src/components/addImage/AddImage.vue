@@ -79,7 +79,7 @@
 
                         let {userId} =user;
 
-                        this.$router.replace({name:'MyPublish',params:{id:userId}})
+                        this.$router.replace({name:'MyPublish',query:{id:userId}})
 
                     }
 

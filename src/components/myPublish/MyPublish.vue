@@ -1,107 +1,223 @@
 <template>
     <div>
         <CommonHeader title="我的发布"></CommonHeader>
+
         <mu-paper :z-depth="1" class="demo-list-wrap">
             <mu-list textline="two-line">
-                <mu-sub-header inset>Folders</mu-sub-header>
-                <mu-list-item avatar button :ripple="false">
+                <mu-sub-header inset>书籍</mu-sub-header>
+                <mu-list-item :key="item.bookId" v-for="item in books" avatar button :ripple="false">
                     <mu-list-item-action>
                         <mu-avatar>
-                            <mu-icon value="folder"></mu-icon>
+                            <mu-icon color="primary" value="book"></mu-icon>
                         </mu-avatar>
                     </mu-list-item-action>
                     <mu-list-item-content>
-                        <mu-list-item-title>Photos</mu-list-item-title>
-                        <mu-list-item-sub-title>Jan 9, 2014</mu-list-item-sub-title>
+                        <mu-list-item-title>书名:{{item.bookName}}</mu-list-item-title>
+                        <mu-list-item-sub-title>{{item.bookCreationTime | day}}</mu-list-item-sub-title>
                     </mu-list-item-content>
                     <mu-list-item-action>
-                        <mu-button icon>
-                            <mu-icon value="info"></mu-icon>
-                        </mu-button>
-                    </mu-list-item-action>
-                </mu-list-item>
-                <mu-list-item avatar button :ripple="false">
-                    <mu-list-item-action>
-                        <mu-avatar>
-                            <mu-icon value="folder"></mu-icon>
-                        </mu-avatar>
-                    </mu-list-item-action>
-                    <mu-list-item-content>
-                        <mu-list-item-title>Recipes</mu-list-item-title>
-                        <mu-list-item-sub-title>Jan 17, 2014</mu-list-item-sub-title>
-                    </mu-list-item-content>
-                    <mu-list-item-action>
-                        <mu-button icon>
-                            <mu-icon value="info"></mu-icon>
-                        </mu-button>
-                    </mu-list-item-action>
-                </mu-list-item>
-                <mu-list-item avatar button :ripple="false">
-                    <mu-list-item-action>
-                        <mu-avatar>
-                            <mu-icon value="folder"></mu-icon>
-                        </mu-avatar>
-                    </mu-list-item-action>
-                    <mu-list-item-content>
-                        <mu-list-item-title>Work</mu-list-item-title>
-                        <mu-list-item-sub-title>Jan 28, 2014</mu-list-item-sub-title>
-                    </mu-list-item-content>
-                    <mu-list-item-action>
-                        <mu-button icon>
-                            <mu-icon value="info"></mu-icon>
+                        <mu-button icon @click="delBook(item)">
+                            <mu-icon color="red" value="delete"></mu-icon>
                         </mu-button>
                     </mu-list-item-action>
                 </mu-list-item>
             </mu-list>
+            <p v-if="hasBook">你还没有发布书籍啦</p>
             <mu-divider inset></mu-divider>
             <mu-list textline="two-line">
-                <mu-sub-header inset>Files</mu-sub-header>
-                <mu-list-item avatar button :ripple="false">
+                <mu-sub-header inset>日常用品</mu-sub-header>
+                <mu-list-item :key="item.goodsId" v-for="item in goods" avatar button :ripple="false">
                     <mu-list-item-action>
                         <mu-avatar color="blue">
                             <mu-icon value="assignment"></mu-icon>
                         </mu-avatar>
                     </mu-list-item-action>
                     <mu-list-item-content>
-                        <mu-list-item-title>Vacation itinerary</mu-list-item-title>
-                        <mu-list-item-sub-title>Jan 20, 2014</mu-list-item-sub-title>
+                        <mu-list-item-title>{{item.goodsTitle}}</mu-list-item-title>
+                        <mu-list-item-sub-title>{{item.goodsReleaseTime | day}}</mu-list-item-sub-title>
                     </mu-list-item-content>
                     <mu-list-item-action>
-                        <mu-button icon>
-                            <mu-icon value="info"></mu-icon>
-                        </mu-button>
-                    </mu-list-item-action>
-                </mu-list-item>
-                <mu-list-item avatar button :ripple="false">
-                    <mu-list-item-action>
-                        <mu-avatar color="yellow600">
-                            <mu-icon value="insert_chart"></mu-icon>
-                        </mu-avatar>
-                    </mu-list-item-action>
-                    <mu-list-item-content>
-                        <mu-list-item-title>Kitchen remodel</mu-list-item-title>
-                        <mu-list-item-sub-title>Jan 10, 2014</mu-list-item-sub-title>
-                    </mu-list-item-content>
-                    <mu-list-item-action>
-                        <mu-button icon>
-                            <mu-icon value="info"></mu-icon>
+                        <mu-button icon @click="delGoods(item)">
+                            <mu-icon color="red" value="delete"></mu-icon>
                         </mu-button>
                     </mu-list-item-action>
                 </mu-list-item>
             </mu-list>
+            <p v-if="hasGoods">你还没有发布商品啦</p>
         </mu-paper>
+
     </div>
 </template>
 
 <script>
     import CommonHeader from '../common/Header'
 
+    import http from '../../api'
+
+    import axios from 'axios'
+
+    import Message from 'muse-ui-message/dist/muse-ui-message'
+
+    import storage from '../../assets/utils/StorageUtils'
+
+    import toast from 'muse-ui-toast/dist/muse-ui-toast'
     export default {
         name: "myPublish",
-        components: {CommonHeader}
+        components: {CommonHeader},
+
+        created() {
+
+
+            let user =storage.getStorage("user",true)
+
+            let {userId} =user;
+
+            let goodsurl =`/goods/user/${userId}`
+
+            let bookurl=`/book/user/${userId}`
+
+            axios.all([http.get(goodsurl),http.get(bookurl)])
+                .then(axios.spread((res,res1)=>{
+
+                    this.goods=res.data.info.data
+                    this.books=res1.data.info.data
+
+                }))
+                .catch(err=>{
+
+                    Message.alert('请检查网络是否连接','消息提醒')
+
+                })
+
+            console.log(userId)
+
+        },
+        data(){
+
+            return {
+
+                goods:[],
+                books:[],
+
+            }
+        },
+        methods:{
+
+            delBook(item){
+
+                let num;
+                this.books.find((a,index)=>{
+                    if(item===a){
+
+                        num=index;
+                    }
+                })
+                Message.confirm('确认删除!','提示',{
+                    warningIcon:'priority_high'
+                }).then(res=>{
+                    let {result}=res
+                    if(result){
+
+                        http.get(`/book/del/${item.bookId}`).then(res=>{
+
+                            let {code} = res.data
+                            if(code==='1'){
+
+                                this.books.splice(num,1);
+                                toast.success({
+                                    message:'删除成功',
+                                    position:'top',
+                                    close:true,
+                                })
+                            }else {
+                                toast.error({
+                                    message:'删除失败',
+                                    position:'top',
+                                    close:true,
+                                })
+
+                            }
+
+                        }).catch(err=>{
+
+                            Message.alert('网络繁忙,请稍后再试','消息提示');
+                        })
+
+
+                    }
+
+                })
+
+            },
+            delGoods(item){
+
+                let num;
+                this.goods.find((a,index)=>{
+                    if(item===a){
+
+                        num=index;
+                    }
+                })
+                Message.confirm('确认删除!','提示',{
+                    warningIcon:'priority_high'
+                }).then(res=>{
+                    let {result}=res
+                    if(result){
+
+                        http.get(`/goods/del/${item.goodsId}`).then(res=>{
+
+                            let {code} = res.data
+                            if(code==='1'){
+
+                                this.goods.splice(num,1);
+                                toast.success({
+                                    message:'删除成功',
+                                    position:'top',
+                                    close:true,
+                                })
+                            }else {
+                                toast.error({
+                                    message:'删除失败',
+                                    position:'top',
+                                    close:true,
+                                })
+
+                            }
+
+                        }).catch(err=>{
+
+                            Message.alert('网络繁忙,请稍后再试','消息提示');
+                        })
+
+
+                    }
+
+                })
+            }
+        },
+        computed:{
+
+            hasBook(){
+
+                return this.books.length===0;
+            },
+
+            hasGoods(){
+
+                return this.goods.length===0;
+            }
+
+        }
+
+
     }
 </script>
 
 <style scoped>
+    p{
 
+        text-align: center;
+        color: red;
+        font-size: 20px;
+    }
 </style>

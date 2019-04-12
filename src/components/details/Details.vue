@@ -15,7 +15,7 @@
                 {{info.bookDes}}
             </mu-card-text>
             <mu-card-actions>
-                <mu-button flat color="primary">加入购物车</mu-button>
+                <mu-button flat color="primary" @click="addShopCar">加入购物车</mu-button>
                 <mu-button flat color="success">我想要</mu-button>
             </mu-card-actions>
         </mu-card>
@@ -35,7 +35,7 @@
                 {{info.goodsDes}}
             </mu-card-text>
             <mu-card-actions>
-                <mu-button flat color="primary">加入购物车</mu-button>
+                <mu-button flat color="primary" @click="addGoodsToShopCar">加入购物车</mu-button>
                 <mu-button flat color="success">我想要</mu-button>
             </mu-card-actions>
         </mu-card>
@@ -45,6 +45,12 @@
 <script>
     import CommonHeader from '../common/Header'
     import api from '../../api'
+
+    import stroage from '../../assets/utils/StorageUtils'
+
+    import Message from 'muse-ui-message/dist/muse-ui-message'
+
+    import Qs from 'qs'
     export default {
         name: "Details",
         components:{CommonHeader},
@@ -61,8 +67,6 @@
                 api.get(`/book/${id}`).then(res=>{
 
                     this.info = res.data.info.data;
-
-
                     this.info.img= img;
                     this.user= this.info.shUser
 
@@ -97,6 +101,72 @@
                 user:{},
                 book:{},
                 okBook:1,
+            }
+        },
+        methods:{
+
+            addShopCar(){
+                let user = stroage.getStorage('user',true)
+                let uid=user.userId;
+                let gid = this.info.bookId
+                let a ={
+                    uid,
+                    gid,
+                    okBook:this.okBook,
+                    count:1
+                }
+
+                api.post('/shopcar/add',Qs.stringify(a)).then(res=>{
+
+                    let {code,message} = res.data
+
+                    if(code==='-1'){
+
+                        Message.alert('添加失败')
+                    }else{
+
+                        Message.alert('添加成功')
+                    }
+
+
+                }).catch(err=>{
+
+                    Message.alert('网络请求失败','消息提示')
+
+                })
+
+
+            },
+            addGoodsToShopCar(){
+                let user = stroage.getStorage('user',true)
+                let uid=user.userId;
+                let gid = this.info.goodsId
+                let a ={
+                    uid,
+                    gid,
+                    okBook:this.okBook,
+                    count:1
+                }
+
+                api.post('/shopcar/add',Qs.stringify(a)).then(res=>{
+
+                    let {code,message} = res.data
+
+                    if(code==='-1'){
+
+                        Message.alert('添加失败')
+                    }else{
+
+                        Message.alert('添加成功')
+                    }
+
+
+                }).catch(err=>{
+
+                    Message.alert('网络请求失败','消息提示')
+
+                })
+
 
 
             }

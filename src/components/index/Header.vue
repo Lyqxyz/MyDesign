@@ -81,7 +81,7 @@
                     </mu-list-item-action>
                     <mu-list-item-title>分类</mu-list-item-title>
                 </mu-list-item>
-                <mu-list-item button>
+                <mu-list-item button :to="{name:'Order'}">
                     <mu-list-item-action>
                         <mu-icon value="drafts"></mu-icon>
                     </mu-list-item-action>

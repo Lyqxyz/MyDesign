@@ -4,9 +4,14 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import MuseUI from 'muse-ui';
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
+import 'dayjs/locale/zh-cn'
 import 'muse-ui/dist/muse-ui.css';
 
+dayjs.extend(relativeTime)
+dayjs.locale('zh-cn')
 Vue.use(MuseUI)
 
 Vue.filter('url',(value)=>{
@@ -21,6 +26,13 @@ Vue.filter('handleNull',(value)=>{
     }
 
     return value ==null?'匿名' :value;
+
+})
+
+Vue.filter('day',(value)=>{
+
+
+    return  dayjs().to(dayjs(value))
 
 })
 
