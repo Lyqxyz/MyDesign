@@ -4,21 +4,23 @@
         <p class="order" v-if="has">你还没有订单</p>
         <mu-paper :z-depth="1" class="demo-list-wrap">
             <mu-list textline="two-line">
-                <mu-list-item  avatar button :ripple="false">
+                <mu-list-item v-for="item in orders" :key="item.orderId"  avatar button :ripple="false">
                     <mu-list-item-action>
                         <mu-avatar>
                             <mu-icon color="primary" value="book"></mu-icon>
                         </mu-avatar>
                     </mu-list-item-action>
                     <mu-list-item-content>
-                        <mu-list-item-title>111</mu-list-item-title>
+                        <mu-list-item-title>订单号:{{item.orderNum}}</mu-list-item-title>
                         <mu-list-item-sub-title>
-                           1111
+                           总价:{{item.orderPrice}}
+                            {{item.orderIsPay===1?'已付款':'未付款'}}
+                            创建时间:{{item.orderCreationTime | day}}
                         </mu-list-item-sub-title>
                     </mu-list-item-content>
                     <mu-list-item-action>
-                        <mu-button icon>
-                            <mu-icon color="red" value="info"></mu-icon>
+                        <mu-button icon @click="goOrder(item)">
+                            <mu-icon color="primary" value="keyboard_backspace"></mu-icon>
                         </mu-button>
                     </mu-list-item-action>
                 </mu-list-item>
@@ -31,10 +33,12 @@
 
     import storage from '../../assets/utils/StorageUtils'
 
+    import Message from 'muse-ui-message/dist/muse-ui-message'
     import http from '../../api'
     export default {
         name: "order",
         components: {CommonHeader},
+
         created(){
 
             let user = storage.getStorage('user',true)
@@ -44,11 +48,10 @@
             http.get(`/order/user/${userId}`).then(res=>{
 
                 this.orders = res.data.info.data
-                console.log(res.data)
 
             }).catch(err=>{
 
-
+                Message.alert('网络连接失败请重试','消息提示')
 
             })
 
@@ -58,6 +61,12 @@
             return {
                 orders:[]
             }
+        },
+        methods:{
+            goOrder(item){
+                this.$router.push({name:'OrderDetails',params:{id:item.orderId}})
+            }
+
         },
         computed:{
 

@@ -49,13 +49,11 @@
             </mu-list>
         </mu-paper>
         <mu-row  v-if="!has">
-            <p class="shopCar">总价：{{price}}</p>
+            <p class="shopCar">总价：{{price}}元</p>
         </mu-row>
         <mu-row v-if="!has">
-            <mu-button color="primary" @click="order">收入口袋</mu-button>
+            <mu-button round :disabled="disabled" full-width color="primary" @click="order">{{text}}</mu-button>
         </mu-row>
-
-
     </div>
 </template>
 
@@ -69,6 +67,9 @@
     import Message from 'muse-ui-message/dist/muse-ui-message'
 
     import toast from 'muse-ui-toast/dist/muse-ui-toast'
+
+    import Qs from 'qs'
+
     export default {
         name: "shopcar",
         components: {CommonHeader},
@@ -93,6 +94,8 @@
 
             return {
                 info:[],
+                disabled:false,
+                text:'收入口袋'
             }
         },
         methods:{
@@ -147,11 +150,79 @@
             },
             order(){
 
-                console.log(this.info)
 
-                let string = JSON.stringify(this.info)
+                Message.prompt('请输入收货地址','消息提示').then(res=>{
 
-                console.log(string)
+                    let {result,value} = res
+
+                    if(result){
+
+                        if(value==='undefined'){
+
+                            toast.success({
+                                message:'请输入地址',
+                                position:'top',
+                                close:true,
+                            })
+
+                        }else{
+
+                            let orderUid=storage.getStorage('user',true).userId
+
+                            let orderPrice =this.price
+
+                            let orderAddress=value
+
+                            let shopcars = JSON.stringify(this.info)
+
+                            let data ={
+
+                                orderUid,
+                                orderPrice,
+                                orderAddress,
+                                shopcars,
+                            }
+
+                            let postData= Qs.stringify(data)
+
+                            this.disabled=true;
+                            this.text='正在创建订单,请耐心等待...'
+
+                            http.post('/order/add',postData).then(res=>{
+
+                                let {code} = res.data
+
+                                if(code==='1'){
+
+                                    this.disabled=false;
+                                    this.text='收入口袋'
+                                    this.$router.replace({name:'Order'})
+                                }else{
+
+                                    Message.alert('请求失败','消息提示')
+                                }
+
+                            }).catch(err=>{
+
+                                Message.alert('服务器错误，请稍后再试','消息提示')
+
+                            })
+
+                        }
+                    }
+
+
+                }).catch(err=>{
+
+                    Message.alert('服务器错误，请稍后再试','消息提示')
+
+                })
+
+
+
+
+
+
             }
 
         },
@@ -176,7 +247,7 @@
                             num+=parseFloat(item.shopCarCount) * parseFloat(item.shGoods.goodsSellingPrice)
                         }
                     })
-                    return num+'元';
+                    return num;
                 }
             }
 

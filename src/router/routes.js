@@ -11,6 +11,8 @@ import MyPublish from '../components/myPublish/MyPublish'
 import ShopCar from '../components/shopcar/ShopCar'
 import Order from '../components/order/order'
 
+import OrderDetails from '../components/details/OrderDetails'
+
 export default [
     {
         path:'/',
@@ -30,6 +32,7 @@ export default [
     {path:'/AddImage/:id',components:{'header':AddImage},name:'AddImage'},
     {path:'/allClass',components:{'header':AllClass},name:'AllClass'},
     {path:'/order',components:{'header':Order},name:'Order'},
+    {path:'/orderDetails/:id',components:{'header':OrderDetails},name:'OrderDetails'},
     {path :'*',redirect:'/'}
 
 ]
