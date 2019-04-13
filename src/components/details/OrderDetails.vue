@@ -49,16 +49,19 @@
         </mu-paper>
 
         <mu-row>
-            <mu-button round full-width color="primary" @click="pay">付款</mu-button>
+            <mu-button v-if="isPay===0" round full-width color="primary" @click="pay">付款</mu-button>
+
+            <mu-button :disabled="disabled" v-else round full-width color="primary">已付款</mu-button>
+
         </mu-row>
 
         <mu-row class="mg">
-            <mu-button v-if="Receipt===1" round full-width color="primary" @click="ok">已经送达</mu-button>
+            <mu-button :disabled="disabled" v-if="Receipt===1" round full-width color="primary">已经送达</mu-button>
             <mu-button v-else round full-width color="primary" @click="ok">确认收货</mu-button>
         </mu-row>
 
         <mu-row class="mg">
-            <mu-button round full-width color="warning" @click="ok">取消订单</mu-button>
+            <mu-button @click="deleteOrder" v-if="isPay===0" round full-width color="warning">取消订单</mu-button>
         </mu-row>
     </div>
 
@@ -77,6 +80,8 @@
             let {id}=  this.$route.params
 
             let {isPay,Receipt,address} =this.$route.query
+
+            this.id=id
 
             this.isPay=isPay
 
@@ -101,10 +106,12 @@
 
             return {
 
+                id:'',
                 isPay:0,
                 Receipt:0,
                 address:'',
                 orders:[],
+                disabled:true,
 
             }
         },
@@ -112,17 +119,133 @@
 
             ok(){
 
-                this.Receipt=1
+                Message.confirm('请确认收到货','消息提示').then(res=>{
+
+                    let {result,value} = res;
+
+                    if(result){
+
+                        let url = `/order/recv/${this.id}`
+                        http.get(url).then(res=>{
+
+                            let {code,message} = res.data
+
+                            if(code==='1'){
+
+                                this.Receipt=1
+                            }else{
+
+                                Message.alert(message,'消息提示')
+                            }
+
+                        }).catch(err=>{
+
+                            Message.alert('网络请求错误，请稍后再试','消息提示')
+                        })
+
+                    }
+
+
+                }).catch(err=>{
+
+                    Message.alert('服务器错误','消息提示')
+                })
+
+
             },
             pay(){
 
                 Message.prompt('请输入金额，次为模拟付款','请输入金额').then(res=>{
+
+                    let {result,value} = res;
+
+                    if(result){
+
+                        try {
+
+                            let price = parseInt(value)
+
+                            if(price===this.price){
+
+                                let url = `/order/payId/${this.id}`
+                                http.get(url).then(res=>{
+
+                                    let {code,message} = res.data
+
+                                    if(code==='1'){
+
+                                        this.isPay=1;
+
+                                        Message.alert('付款成功','消息提示')
+
+                                    }else{
+
+                                        Message.alert(message,'消息提示')
+                                    }
+
+                                }).catch(err=>{
+
+                                    Message.alert('网络请求错误，请稍后再试','消息提示')
+
+                                })
+
+
+                            }else{
+                                Message.alert('请输入正确的金额','消息提示')
+                            }
+
+                        }
+                        catch (e) {
+
+                            Message.alert('请输入正确的金额','消息提示')
+                        }
+
+
+                    }
+
 
                     console.log(res)
 
                 }).catch(err=>{
 
 
+                })
+
+            },
+            deleteOrder(){
+                Message.confirm('是否取消订单','消息提示').then(res=>{
+
+                    let {result,value} = res;
+
+                    if(result){
+
+                        let url = `/order/del/${this.id}`
+                        http.get(url).then(res=>{
+
+                            let {code,message} = res.data
+
+                            if(code==='1'){
+
+                                Message.alert(message,'消息提示')
+
+                                this.$router.replace({name:'Order'})
+
+                            }else{
+
+                                Message.alert(message,'消息提示')
+                            }
+
+                        }).catch(err=>{
+
+                            Message.alert('网络请求错误，请稍后再试','消息提示')
+                        })
+
+                    }
+
+
+                }).catch(err=>{
+
+                    Message.alert('服务器错误','消息提示')
                 })
 
             }
