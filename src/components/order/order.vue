@@ -49,6 +49,8 @@
 
                 this.orders = res.data.info.data
 
+                console.log(this.orders)
+
             }).catch(err=>{
 
                 Message.alert('网络连接失败请重试','消息提示')
@@ -64,7 +66,8 @@
         },
         methods:{
             goOrder(item){
-                this.$router.push({name:'OrderDetails',params:{id:item.orderId}})
+                this.$router.push({name:'OrderDetails',
+                    params:{id:item.orderId},query:{isPay:item.orderIsPay,Receipt:item.orderReceipt,address:item.orderAddress}})
             }
 
         },

@@ -15,8 +15,7 @@
                 {{info.bookDes}}
             </mu-card-text>
             <mu-card-actions>
-                <mu-button flat color="primary" @click="addShopCar">加入购物车</mu-button>
-                <mu-button flat color="success">我想要</mu-button>
+                <mu-button full-width flat color="primary" @click="addShopCar">加入购物车</mu-button>
             </mu-card-actions>
         </mu-card>
 
@@ -35,8 +34,7 @@
                 {{info.goodsDes}}
             </mu-card-text>
             <mu-card-actions>
-                <mu-button flat color="primary" @click="addGoodsToShopCar">加入购物车</mu-button>
-                <mu-button flat color="success">我想要</mu-button>
+                <mu-button full-width flat color="primary" @click="addGoodsToShopCar">加入购物车</mu-button>
             </mu-card-actions>
         </mu-card>
     </div>
@@ -84,6 +82,7 @@
 
                 }).catch(err=>{
 
+                    Message.alert('服务器错误，请稍后再试','消息提示')
 
                 })
 
@@ -169,7 +168,8 @@
 
 
 
-            }
+            },
+
         }
     }
 </script>

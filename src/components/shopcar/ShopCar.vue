@@ -4,7 +4,6 @@
         <p class="shopCar" v-if="has">购物车空空如也！！！</p>
         <mu-paper :z-depth="1" class="demo-list-wrap">
             <mu-list v-for="item in info" :key="item.shopCarId" textline="two-line">
-
                 <mu-list-item v-if="item.shopCarOkBook===1" avatar button :ripple="false">
                     <mu-list-item-action>
                         <mu-avatar>
@@ -217,11 +216,6 @@
                     Message.alert('服务器错误，请稍后再试','消息提示')
 
                 })
-
-
-
-
-
 
             }
 
