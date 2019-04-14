@@ -15,6 +15,8 @@ import Reg from '../components/reg/Reg'
 import Login from '../components/login/Login'
 import OrderDetails from '../components/details/OrderDetails'
 
+import Sent from '../components/sent/Sent'
+
 export default [
     {
         path:'/',
@@ -37,6 +39,7 @@ export default [
     {path:'/orderDetails/:id',components:{'header':OrderDetails},name:'OrderDetails',meta:{isLogin:true}},
     {path:'/login',components:{'center':Login},name:'Login'},
     {path:'/reg',components:{'center':Reg},name:'Reg'},
+    {path:'/sent',components:{'center':Sent},name:'Sent',meta:{isLogin:true}},
     {path :'*',redirect:'/'}
 
 ]

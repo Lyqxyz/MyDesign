@@ -22,12 +22,12 @@
                         </mu-list-item-action>
                         <mu-list-item-title>注销</mu-list-item-title>
                     </mu-list-item>
-<!--                    <mu-list-item button :ripple="ripple" :to="{name:'AllClass'}">-->
-<!--                        <mu-list-item-action>-->
-<!--                            <mu-icon value="drafts"></mu-icon>-->
-<!--                        </mu-list-item-action>-->
-<!--                        <mu-list-item-title>分类</mu-list-item-title>-->
-<!--                    </mu-list-item>-->
+                    <mu-list-item button :ripple="ripple" :to="{name:'Sent'}">
+                        <mu-list-item-action>
+                            <mu-icon value="sent"></mu-icon>
+                        </mu-list-item-action>
+                        <mu-list-item-title>待发货</mu-list-item-title>
+                    </mu-list-item>
                 </mu-list>
             </mu-menu>
         </mu-appbar>
