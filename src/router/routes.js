@@ -11,6 +11,8 @@ import MyPublish from '../components/myPublish/MyPublish'
 import ShopCar from '../components/shopcar/ShopCar'
 import Order from '../components/order/order'
 
+import Reg from '../components/reg/Reg'
+import Login from '../components/login/Login'
 import OrderDetails from '../components/details/OrderDetails'
 
 export default [
@@ -23,16 +25,18 @@ export default [
         },
         name:'index'
     },
-    {path:'/ShopCar',components:{'header':ShopCar},name:'ShopCar'},
-    {path:'/MyPushlish',components:{'header':MyPublish},name:'MyPublish'},
+    {path:'/ShopCar',components:{'header':ShopCar},name:'ShopCar',meta:{isLogin:true}},
+    {path:'/MyPushlish',components:{'header':MyPublish},name:'MyPublish',meta:{isLogin:true}},
     {path:'/search/:id',components:{'header':Search},name:'Search'},
     {path:'/showDetails/:id',components:{'header':Details},name:'Details'},
-    {path:'/PublishBook/',components:{'header':PublishBook},name:'PublishBook'},
-    {path:'/PublishGoods/',components:{'header':PublishGoods},name:'PublishGoods'},
-    {path:'/AddImage/:id',components:{'header':AddImage},name:'AddImage'},
+    {path:'/PublishBook/',components:{'header':PublishBook},name:'PublishBook',meta:{isLogin:true}},
+    {path:'/PublishGoods/',components:{'header':PublishGoods},name:'PublishGoods',meta:{isLogin:true}},
+    {path:'/AddImage/:id',components:{'header':AddImage},name:'AddImage',meta:{isLogin:true}},
     {path:'/allClass',components:{'header':AllClass},name:'AllClass'},
-    {path:'/order',components:{'header':Order},name:'Order'},
-    {path:'/orderDetails/:id',components:{'header':OrderDetails},name:'OrderDetails'},
+    {path:'/order',components:{'header':Order},name:'Order',meta:{isLogin:true}},
+    {path:'/orderDetails/:id',components:{'header':OrderDetails},name:'OrderDetails',meta:{isLogin:true}},
+    {path:'/login',components:{'center':Login},name:'Login'},
+    {path:'/reg',components:{'center':Reg},name:'Reg'},
     {path :'*',redirect:'/'}
 
 ]

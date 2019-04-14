@@ -20,9 +20,12 @@ let setStorage =(key,value=[],isSession=false)=>{
     if(isSession){
 
         sessionStorage.setItem(key,JSON.stringify(value))
+    }else{
+
+        localStorage.setItem(key,JSON.stringify(value))
     }
 
-    localStorage.setItem(key,JSON.stringify(value))
+
 
 }
 
@@ -31,8 +34,10 @@ let removeStorage=(key,isSession=false)=>{
     if(isSession){
 
         sessionStorage.removeItem(key)
+    }else{
+        localStorage.removeItem(key)
     }
-    localStorage.removeItem(key)
+
 }
 
 export default {

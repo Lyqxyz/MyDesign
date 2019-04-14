@@ -28,6 +28,9 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
+        options:{
+          presets:['es2015']
+        },
         exclude: /node_modules/
       },
       {
@@ -49,7 +52,7 @@ module.exports = {
     historyApiFallback: true,
     noInfo: true,
     overlay: true,
-    port:8081
+    port:8081,
   },
   performance: {
     hints: false

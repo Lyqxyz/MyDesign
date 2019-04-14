@@ -106,6 +106,19 @@
 
             addShopCar(){
                 let user = stroage.getStorage('user',true)
+
+                console.log(typeof user)
+
+                console.log(user)
+                if(user.length===0){
+
+                    Message.alert('亲，你还没有登录哟','登录').then(res=>{
+                        let {result} = res
+                        this.$router.replace({name:'Login'})
+                    })
+
+                    return;
+                }
                 let uid=user.userId;
                 let gid = this.info.bookId
                 let a ={

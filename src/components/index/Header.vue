@@ -10,24 +10,24 @@
                     <mu-icon value="more_vert"></mu-icon>
                 </mu-button>
                 <mu-list slot="content">
-                    <mu-list-item button :ripple="ripple">
+                    <mu-list-item  button :ripple="ripple" :to="{name:'Login'}">
                         <mu-list-item-action>
                             <mu-icon value="grade"></mu-icon>
                         </mu-list-item-action>
-                        <mu-list-item-title>分享</mu-list-item-title>
+                        <mu-list-item-title>登录</mu-list-item-title>
                     </mu-list-item>
-                    <mu-list-item button :ripple="ripple">
+                    <mu-list-item button :ripple="ripple" @click="logout">
                         <mu-list-item-action>
                             <mu-icon value="send"></mu-icon>
                         </mu-list-item-action>
-                        <mu-list-item-title>消息</mu-list-item-title>
+                        <mu-list-item-title>注销</mu-list-item-title>
                     </mu-list-item>
-                    <mu-list-item button :ripple="ripple" :to="{name:'AllClass'}">
-                        <mu-list-item-action>
-                            <mu-icon value="drafts"></mu-icon>
-                        </mu-list-item-action>
-                        <mu-list-item-title>分类</mu-list-item-title>
-                    </mu-list-item>
+<!--                    <mu-list-item button :ripple="ripple" :to="{name:'AllClass'}">-->
+<!--                        <mu-list-item-action>-->
+<!--                            <mu-icon value="drafts"></mu-icon>-->
+<!--                        </mu-list-item-action>-->
+<!--                        <mu-list-item-title>分类</mu-list-item-title>-->
+<!--                    </mu-list-item>-->
                 </mu-list>
             </mu-menu>
         </mu-appbar>
@@ -96,6 +96,9 @@
 </template>
 
 <script>
+    import Message from 'muse-ui-message/dist/muse-ui-message'
+
+    import storage from '../../assets/utils/StorageUtils'
     export default {
         name: "Header",
         data() {
@@ -105,6 +108,7 @@
                 open: false,
                 position: 'left',
                 ripple:true,
+                user:[],
             }
         },
         methods:{
@@ -114,7 +118,39 @@
                 }else{
                     this.isActive=false
                 }
+            },
+            logout(){
+
+
+                let user = storage.getStorage('user',true)
+
+                if(user.length===0){
+
+                    Message.alert("请先登录","消息提示")
+
+                }else{
+
+                    Message.confirm('是否注销','消息提示').then(res=>{
+
+                        let {result}=res;
+                        if(result){
+                            storage.removeStorage('user',true)
+                        }
+                    })
+
+                }
+
             }
+        },
+        computed:{
+
+            okLogin(){
+
+
+
+
+            }
+
         }
     }
 </script>
