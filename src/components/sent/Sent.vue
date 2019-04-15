@@ -59,9 +59,9 @@
 
     import storage from '../../assets/utils/StorageUtils'
 
-    import Qs from 'qs'
-
     import Message from 'muse-ui-message/dist/muse-ui-message'
+
+    import toast from 'muse-ui-toast/dist/muse-ui-toast'
 
     export default {
         name: "Sent",
@@ -72,7 +72,7 @@
 
             let userId= user.userId;
 
-            http.get(`/GoodsOrder/User/98006696911175685`).then(res=>{
+            http.get(`/GoodsOrder/User/${userId}`).then(res=>{
 
                 this.orders = res.data.info.data
                 console.log(this.orders)
@@ -95,10 +95,43 @@
 
             send(item){
 
-                console.log(item)
                 Message.confirm('确认发货','消息提示').then(res=>{
 
                     let {result}=res
+
+                    if(result){
+
+                        let url = `/GoodsOrder/update/${item.goId}`
+
+                        http.get(url).then(res=>{
+
+                            let {code,message} = res.data
+                            if(code==='1'){
+                                item.goState=1;
+                                toast.success({
+                                    message:'发货成功',
+                                    position:'top',
+                                    close:true,
+                                })
+                            }else{
+                                toast.warning({
+                                    message:'发货失败，网络连接失败',
+                                    position:'top',
+                                    close:true,
+                                })
+                            }
+                        }).catch(err=>{
+
+                            toast.warning({
+                                message:'网络繁忙,请稍后再试',
+                                position:'top',
+                                close:true,
+                            })
+                            console.log(err)
+                        })
+
+
+                    }
 
                     console.log(result)
                 }).catch(err=>{

@@ -71,7 +71,7 @@
 
                 goodsTitleRules:[
                     { validate: (val) => !!val, message: '必须填写标题'},
-                    { validate: (val) => val.length <= 20&&val.length>=5, message: '书名长度大于5小于20'}
+                    { validate: (val) => val.length <= 50&&val.length>=5, message: '书名长度大于5小于50'}
                 ],
 
                 goodsDesRules:[

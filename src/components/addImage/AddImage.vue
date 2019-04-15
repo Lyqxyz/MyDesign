@@ -71,8 +71,8 @@
 
                     let {code,message,info} = res.data;
                     if(code==='-1'){
-
-                        Message.alert(message+' 请检查大小','消息提示')
+                        //Message.alert(message+' 请检查大小','消息提示')
+                        this.$router.replace({name:'index'})
                     }else{
 
                         let user = storage.getStorage('user',true)

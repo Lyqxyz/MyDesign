@@ -37,6 +37,7 @@
                     <mu-avatar color="indigo">
                         <mu-icon value="account_circle"></mu-icon>
                     </mu-avatar>
+                    {{info.userName===null?'未登录':info.userName}}
                 </mu-list-item>
                 <mu-list-item button :to="{name:'index'}">
                     <mu-list-item-action>
@@ -101,6 +102,13 @@
     import storage from '../../assets/utils/StorageUtils'
     export default {
         name: "Header",
+        created(){
+
+            let user = storage.getStorage('user',true)
+
+            this.info=user;
+
+        },
         data() {
             return {
                 isActive: true,
@@ -109,6 +117,7 @@
                 position: 'left',
                 ripple:true,
                 user:[],
+                info:{}
             }
         },
         methods:{
@@ -121,9 +130,7 @@
             },
             logout(){
 
-
                 let user = storage.getStorage('user',true)
-
                 if(user.length===0){
 
                     Message.alert("请先登录","消息提示")
@@ -135,6 +142,7 @@
                         let {result}=res;
                         if(result){
                             storage.removeStorage('user',true)
+                            this.info={}
                         }
                     })
 
