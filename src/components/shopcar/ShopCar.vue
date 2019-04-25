@@ -156,7 +156,7 @@
 
                     if(result){
 
-                        if(value==='undefined'){
+                        if(value==='undefined'||value===undefined){
 
                             toast.success({
                                 message:'请输入地址',

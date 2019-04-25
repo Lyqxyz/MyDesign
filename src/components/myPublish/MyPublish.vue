@@ -13,7 +13,8 @@
                     </mu-list-item-action>
                     <mu-list-item-content>
                         <mu-list-item-title>书名:{{item.bookName}}</mu-list-item-title>
-                        <mu-list-item-sub-title>{{item.bookCreationTime | day}}</mu-list-item-sub-title>
+                        <mu-list-item-sub-title>{{item.bookCreationTime | day}}==>审核:{{item.bookState | pass}}
+                        </mu-list-item-sub-title>
                     </mu-list-item-content>
                     <mu-list-item-action>
                         <mu-button icon @click="delBook(item)">
@@ -34,7 +35,9 @@
                     </mu-list-item-action>
                     <mu-list-item-content>
                         <mu-list-item-title>{{item.goodsTitle}}</mu-list-item-title>
-                        <mu-list-item-sub-title>{{item.goodsReleaseTime | day}}</mu-list-item-sub-title>
+                        <mu-list-item-sub-title>
+                            {{item.goodsReleaseTime | day}}==>审核:{{item.goodsState | pass}}
+                        </mu-list-item-sub-title>
                     </mu-list-item-content>
                     <mu-list-item-action>
                         <mu-button icon @click="delGoods(item)">
@@ -67,7 +70,6 @@
 
         created() {
 
-
             let user =storage.getStorage("user",true)
 
             let {userId} =user;
@@ -81,6 +83,10 @@
 
                     this.goods=res.data.info.data
                     this.books=res1.data.info.data
+
+                    console.log(this.goods)
+
+                    console.log(this.books)
 
                 }))
                 .catch(err=>{
@@ -193,6 +199,10 @@
                     }
 
                 })
+            },
+            edit(){
+
+                console.log('aaa')
             }
         },
         computed:{

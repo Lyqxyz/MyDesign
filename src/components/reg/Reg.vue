@@ -18,7 +18,6 @@
             <mu-form-item label="邮箱" prop="email" :rules="emailRules">
                 <mu-text-field v-model="reg.email" prop="email"></mu-text-field>
             </mu-form-item>
-
             <mu-form-item>
                <span class="lo" @click="toLogin">[登录]</span>
             </mu-form-item>

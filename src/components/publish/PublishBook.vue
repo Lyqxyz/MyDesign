@@ -137,7 +137,6 @@
                                 let {bookId} =info.book;
 
                                 this.$router.push({name:'AddImage',params:{id:bookId},query:{isBook:true}})
-
                             }
                         }).catch(err=>{
 

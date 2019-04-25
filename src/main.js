@@ -29,6 +29,22 @@ Vue.filter('handleNull',(value)=>{
 
 })
 
+Vue.filter('pass',(value)=>{
+
+    let v= parseInt(value)
+    switch (v) {
+
+        case 1:
+            return '通过'
+        case 0:
+            return '待审核'
+        case -1:
+            return '未通过'
+        default:
+            return '未知'
+    }
+})
+
 Vue.filter('day',(value)=>{
 
 

@@ -80,7 +80,7 @@
 
                             if(code==='-1'){
 
-                                Message.alert(message,'消息提示')
+                                Message.alert('请刷新页面试试','消息提示')
 
                                 this.linear = 0
 
@@ -125,19 +125,15 @@
 <style scoped>
 
     .head{
-
         text-align: center;
-        color: aqua;
+        color: black;
         margin: 20px;
-
-
     }
     .login{
 
         text-align: center;
-
         font-size: 24px;
-        color: aquamarine;
+        color: black;
 
     }
     .r{
