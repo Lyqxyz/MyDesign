@@ -10,7 +10,6 @@
     import FileUpload from '../common/FileUpload'
     import Message from 'muse-ui-message/dist/muse-ui-message'
     import http from '../../api'
-
     import storage from '../../assets/utils/StorageUtils'
     export default {
         name: "AddImage",

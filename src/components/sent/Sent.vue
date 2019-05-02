@@ -26,6 +26,8 @@
                         </mu-button>
                     </mu-list-item-action>
                 </mu-list-item>
+
+
                 <mu-list-item v-if="item.goIsBook===0" avatar button :ripple="false">
                     <mu-list-item-action>
                         <mu-avatar>
@@ -42,7 +44,7 @@
                     </mu-list-item-content>
                     <mu-list-item-action>
                         <span v-if="item.goState===1">已发货</span>
-                        <mu-button icon v-if="item.goState===0">
+                        <mu-button icon v-if="item.goState===0" @click="send(item)">
                             <mu-icon color="red" value="send"></mu-icon>
                         </mu-button>
                     </mu-list-item-action>

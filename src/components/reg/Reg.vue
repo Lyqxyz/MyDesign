@@ -142,12 +142,16 @@
     .reg{
         text-align: center;
 
-        color: aquamarine;
+        color: black;
 
         margin: 20px;
 
         font-size: 24px;
 
+    }
+    label{
+
+       font-weight: bold;
     }
     .lo{
         color: red;

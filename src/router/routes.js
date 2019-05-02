@@ -10,12 +10,16 @@ import Search from '../components/search/Search'
 import MyPublish from '../components/myPublish/MyPublish'
 import ShopCar from '../components/shopcar/ShopCar'
 import Order from '../components/order/order'
-
 import Reg from '../components/reg/Reg'
 import Login from '../components/login/Login'
 import OrderDetails from '../components/details/OrderDetails'
-
 import Sent from '../components/sent/Sent'
+import UpdateBook from '../components/update/UpdateBook'
+
+import UpdateGoods from '../components/update/UpdateGoods'
+
+
+import UpdatePic from '../components/updatePic/UpdatePic'
 
 export default [
     {
@@ -40,6 +44,9 @@ export default [
     {path:'/login',components:{'center':Login},name:'Login'},
     {path:'/reg',components:{'center':Reg},name:'Reg'},
     {path:'/sent',components:{'center':Sent},name:'Sent',meta:{isLogin:true}},
+    {path:'/updateBook/:id',components:{'header':UpdateBook},name:'updateBook',meta:{isLogin:true}},
+    {path:'/updateGoods/:id',components:{'header':UpdateGoods},name:'updateGoods',meta:{isLogin:true}},
+    {path:'/updatePic/:id',components:{'header':UpdatePic},name:'updatePic'},
     {path :'*',redirect:'/'}
 
 ]

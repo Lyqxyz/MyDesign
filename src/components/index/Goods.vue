@@ -61,14 +61,10 @@
                     this.index++;
 
                 }).catch(err=>{
-
-
                 })
 
             },
             goDetails(item){
-
-
                 this.$router.push({name:'Details',params:{id:item.id},query:{okBook:item.okBook,img:item.xsImage}})
 
             }

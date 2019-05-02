@@ -1,18 +1,17 @@
 <template>
     <div>
         <CommonHeader title="我的发布"></CommonHeader>
-
         <mu-paper :z-depth="1" class="demo-list-wrap">
             <mu-list textline="two-line">
                 <mu-sub-header inset>书籍</mu-sub-header>
                 <mu-list-item :key="item.bookId" v-for="item in books" avatar button :ripple="false">
                     <mu-list-item-action>
-                        <mu-avatar>
+                        <mu-avatar @click="go(item)">
                             <mu-icon color="primary" value="book"></mu-icon>
                         </mu-avatar>
                     </mu-list-item-action>
                     <mu-list-item-content>
-                        <mu-list-item-title>书名:{{item.bookName}}</mu-list-item-title>
+                        <mu-list-item-title @click="edit(item)">书名:{{item.bookName}}</mu-list-item-title>
                         <mu-list-item-sub-title>{{item.bookCreationTime | day}}==>审核:{{item.bookState | pass}}
                         </mu-list-item-sub-title>
                     </mu-list-item-content>
@@ -29,12 +28,12 @@
                 <mu-sub-header inset>日常用品</mu-sub-header>
                 <mu-list-item :key="item.goodsId" v-for="item in goods" avatar button :ripple="false">
                     <mu-list-item-action>
-                        <mu-avatar color="blue">
+                        <mu-avatar color="blue" @click="goGoods(item)">
                             <mu-icon value="assignment"></mu-icon>
                         </mu-avatar>
                     </mu-list-item-action>
                     <mu-list-item-content>
-                        <mu-list-item-title>{{item.goodsTitle}}</mu-list-item-title>
+                        <mu-list-item-title @click="GoodsEdit(item)">{{item.goodsTitle}}</mu-list-item-title>
                         <mu-list-item-sub-title>
                             {{item.goodsReleaseTime | day}}==>审核:{{item.goodsState | pass}}
                         </mu-list-item-sub-title>
@@ -48,7 +47,6 @@
             </mu-list>
             <p v-if="hasGoods">你还没有发布商品啦</p>
         </mu-paper>
-
     </div>
 </template>
 
@@ -200,9 +198,29 @@
 
                 })
             },
-            edit(){
+            edit(item){
 
-                console.log('aaa')
+                this.$router.push({name:'updateBook',params:{id:item.bookId}})
+            },
+            GoodsEdit(item){
+
+                this.$router.push({name:'updateGoods',params:{id:item.goodsId}})
+
+            },
+            go(item){
+                if(item.bookState===0){
+                    Message.alert('等待审核')
+                }else{
+                  this.$router.push({name:'Details',params:{id:item.bookId},query:{okBook:1,img:false}})
+                }
+            },
+            goGoods(item){
+
+                if(item.goodsState===0){
+                    Message.alert('等待审核')
+                }else{
+                    this.$router.push({name:'Details',params:{id:item.goodsId},query:{okBook:0,img:false}})
+                }
             }
         },
         computed:{

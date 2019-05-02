@@ -1,6 +1,6 @@
 <template>
     <mu-container>
-        <CommonHeader title="发布书籍"></CommonHeader>
+        <CommonHeader title="修改书籍"></CommonHeader>
         <mu-row>
             <mu-form ref="form" :model="book" class="mu-demo-form" :label-position="labelPosition" label-width="100">
                 <mu-form-item prop="bookName" label="书名" :rules="bookNameRules">
@@ -34,7 +34,7 @@
                 </mu-form-item>
                 <mu-form-item>
                     <mu-button color="primary" @click="submit" textColor="black">提交</mu-button>
-                    <mu-button @click="clear" color="warning" textColor="black">重置</mu-button>
+                    <mu-button @click="updatePic" color="warning" textColor="black">修改图片</mu-button>
                 </mu-form-item>
             </mu-form>
         </mu-row>
@@ -42,7 +42,9 @@
 </template>
 
 <script>
+
     import CommonHeader from '../common/Header'
+
     import http from '../../api'
 
     import storage from '../../assets/utils/StorageUtils'
@@ -52,8 +54,8 @@
     import Message from 'muse-ui-message/dist/muse-ui-message'
 
     export default {
-        name: "PublishGoods",
-        components:{CommonHeader},
+        name: "UpdateBook",
+        components: {CommonHeader},
         created(){
 
             http.get('/class/withParentClass').then(res=>{
@@ -64,6 +66,19 @@
 
                 Message.alert('服务器错误','消息提示')
             })
+            let {id} =  this.$route.params
+
+            http.get('/book/arg/'+id).then(res=>{
+
+                this.book=res.data.info.data
+                console.log(res.data.info.data)
+
+            }).catch(err=>{
+
+                Message.alert('消息提示','当前访问人数过多，请稍后再试!')
+                console.log(err)
+            })
+            console.log(id)
 
         },
         data(){
@@ -91,7 +106,6 @@
                 ],
                 labelPosition: 'top',
                 book: {
-
                     bookName:'',
                     bookIsbn:'',
                     bookAuthor:'',
@@ -107,53 +121,38 @@
             }
         },
         methods:{
-            submit () {
-                this.$refs.form.validate().then((result) => {
 
+            updatePic(){
 
-
-                    if(result){
-
-                        let user = storage.getStorage('user',true)
-
-                        let {userId}= user;
-
-                        this.book.uid=userId;
-
-                        this.book.bookNao = Math.round(this.book.bookNao)
-
-                        let a =Qs.stringify(this.book)
-
-                        http.post('/book/add',a).then(res=>{
-
-                            let {code,info,message} = res.data;
-
-                            if(code==='-1'){
-
-                                Message.alert(message+'请检查参数！！！','消息提示')
-
-                            }else{
-
-                                let {bookId} =info.book;
-
-                                this.$router.push({name:'AddImage',params:{id:bookId},query:{isBook:true}})
-                            }
-                        }).catch(err=>{
-
-                            Message.alert('服务器错误','消息提示')
-                        })
-
-                    }else{
-                        Message.alert('请填写完整','消息提示')
-
-                    }
-
-                });
+                this.$router.push({name:'updatePic',params:{id:this.book.bookId},query:{isBook:true}})
             },
-            clear () {
-                this.$refs.form.clear();
+            submit(){
+                let nao = Math.round(this.book.bookNao)
+                let postData = `bookId=${this.book.bookId}
+                                &bookName=${this.book.bookName}
+                                &bookIsbn=${this.book.bookIsbn}
+                                &bookAuthor=${this.book.bookAuthor}
+                                &bookPublish=${this.book.bookPublish}
+                                &bookOriginalPrice=${this.book.bookOriginalPrice}
+                                &bookSellingPrice=${this.book.bookSellingPrice}
+                                &bookNao=${nao}
+                                &bookDes=${this.book.bookDes}
+                                &bookCid=${this.book.bookCid}`
 
-        }
+                http.post('/book/updateBook/'+this.book.bookId,postData).then(res=>{
+
+                    let {code,message} = res.data
+
+                    Message.alert(message)
+
+
+                }).catch(err=>{
+
+                    console.log(err)
+                    Message.alert('当前访问人数过多，请稍后再试!','消息提示')
+                })
+
+            }
         }
     }
 </script>
