@@ -14,18 +14,18 @@
                             <mu-list-item-sub-title>30秒发布</mu-list-item-sub-title>
                         </mu-list-item-content>
                     </mu-list-item>
-                    <mu-list-item value="change" avatar button :ripple="ripple">
+                    <mu-list-item value="change" avatar button :ripple="ripple" @click="no">
                         <mu-list-item-action>
                             <mu-avatar>
                                 <mu-icon value="folder"></mu-icon>
                             </mu-avatar>
                         </mu-list-item-action>
                         <mu-list-item-content>
-                            <mu-list-item-title>淘宝转卖</mu-list-item-title>
+                            <mu-list-item-title @click="no">淘宝转卖</mu-list-item-title>
                             <mu-list-item-sub-title>网购宝贝一键发布</mu-list-item-sub-title>
                         </mu-list-item-content>
                     </mu-list-item>
-                    <mu-list-item avatar button :ripple="ripple">
+                    <mu-list-item avatar button :ripple="ripple" @click="no">
                         <mu-list-item-action>
                             <mu-avatar>
                                 <mu-icon value="folder"></mu-icon>
@@ -61,6 +61,7 @@
 
 <script>
 
+    import Message from 'muse-ui-message/dist/muse-ui-message'
     export default {
         name: "Center",
 
@@ -81,6 +82,10 @@
                 }else{
 
                 }
+            },
+            no(){
+
+                Message.alert('该功能后续会推出')
             },
             closeBottomSheet () {
                 this.open = false;

@@ -51,11 +51,11 @@
                     </mu-list-item-action>
                 </mu-list-item>
 
-                <mu-list-item button>
+                <mu-list-item button :to="{name:'updatePhoto'}">
                     <mu-list-item-action>
                         <mu-icon value="grade"></mu-icon>
                     </mu-list-item-action>
-                    <mu-list-item-title>我的资料</mu-list-item-title>
+                    <mu-list-item-title>修改头像</mu-list-item-title>
                     <mu-list-item-action>
                         <mu-button icon>
                             <mu-icon value="info"></mu-icon>

@@ -15,11 +15,9 @@ import Login from '../components/login/Login'
 import OrderDetails from '../components/details/OrderDetails'
 import Sent from '../components/sent/Sent'
 import UpdateBook from '../components/update/UpdateBook'
-
 import UpdateGoods from '../components/update/UpdateGoods'
-
-
 import UpdatePic from '../components/updatePic/UpdatePic'
+import UpdatePhoto from '../components/updatePhoto/UpdatePhoto'
 
 export default [
     {
@@ -46,7 +44,8 @@ export default [
     {path:'/sent',components:{'center':Sent},name:'Sent',meta:{isLogin:true}},
     {path:'/updateBook/:id',components:{'header':UpdateBook},name:'updateBook',meta:{isLogin:true}},
     {path:'/updateGoods/:id',components:{'header':UpdateGoods},name:'updateGoods',meta:{isLogin:true}},
-    {path:'/updatePic/:id',components:{'header':UpdatePic},name:'updatePic'},
+    {path:'/updatePic/:id',components:{'header':UpdatePic},name:'updatePic',meta:{isLogin:true}},
+    {path:'/updatePhoto',components:{'header':UpdatePhoto},name:'updatePhoto',meta:{isLogin:true}},
     {path :'*',redirect:'/'}
 
 ]

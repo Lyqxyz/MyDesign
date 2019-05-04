@@ -57,12 +57,30 @@
                 ],
                 emailRules: [
                     { validate: (val) => !!val, message: '必须填写邮箱'},
+                    { validate: (val)=>{
+                            let isEmail =/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+                            if(isEmail.test(val)){
+                                return true;
+                            }else{
+                                return false
+                            }
+                        },message:'邮箱格式不对'}
                 ],
 
                 phoneRules: [
                     { validate: (val) => !!val, message: '必须填写电话'},
 
-                    { validate: (val) => val.length >= 11, message: '请填写正确电话号码'}
+                    { validate: (val) => {
+
+                                let isPhone = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/;
+                                if(isPhone.test(val)){
+                                    return true;
+                                }else{
+                                    return false
+                                }
+
+                            }, message: '电话号码格式不对'
+                    }
 
                 ],
                 reg:{

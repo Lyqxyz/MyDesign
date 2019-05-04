@@ -1,6 +1,6 @@
 <template>
     <div id="con">
-        <p class="t">图片大小不能超过1M不能低于10k</p>
+<!--        <p class="t">图片大小不能超过1M不能低于10k</p>-->
         <img v-if="isShow" src="http://dummyimage.com/170x200/ffcc33/FFF.png&text=!" alt="式样">
         <img width="170" height="200" v-for="(item,index) in images" :src="item" alt="" :key="index">
         <label for="upload">
