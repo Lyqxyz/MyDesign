@@ -24,16 +24,13 @@ Vue.filter('handleNull',(value)=>{
     if(value===undefined){
         return '匿名'
     }
-
     return value ==null?'匿名' :value;
 
 })
 
 Vue.filter('pass',(value)=>{
-
     let v= parseInt(value)
     switch (v) {
-
         case 1:
             return '通过'
         case 0:
@@ -47,9 +44,7 @@ Vue.filter('pass',(value)=>{
 
 Vue.filter('day',(value)=>{
 
-
     return  dayjs().to(dayjs(value))
-
 })
 
 new Vue({

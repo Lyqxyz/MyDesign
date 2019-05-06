@@ -4,6 +4,11 @@ let instance = axios.create({
 
     baseURL: 'http://localhost:8080',
     timeout:2000,
+    // withCredentials:true,
+    validateStatus(status){
+
+        return status>=200&&status<500
+    }
 })
 
 // 添加请求拦截器

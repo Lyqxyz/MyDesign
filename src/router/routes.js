@@ -18,6 +18,7 @@ import UpdateBook from '../components/update/UpdateBook'
 import UpdateGoods from '../components/update/UpdateGoods'
 import UpdatePic from '../components/updatePic/UpdatePic'
 import UpdatePhoto from '../components/updatePhoto/UpdatePhoto'
+import Find from '../components/find/Find'
 
 export default [
     {
@@ -46,6 +47,7 @@ export default [
     {path:'/updateGoods/:id',components:{'header':UpdateGoods},name:'updateGoods',meta:{isLogin:true}},
     {path:'/updatePic/:id',components:{'header':UpdatePic},name:'updatePic',meta:{isLogin:true}},
     {path:'/updatePhoto',components:{'header':UpdatePhoto},name:'updatePhoto',meta:{isLogin:true}},
+    {path:'/find',components:{'header':Find},name:'find'},
     {path :'*',redirect:'/'}
 
 ]

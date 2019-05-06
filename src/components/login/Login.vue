@@ -1,19 +1,17 @@
 <template>
     <div>
-        <mu-linear-progress :value="linear" mode="determinate" color="green"></mu-linear-progress>
-
         <h1 class="head">辽科大二手交易平台</h1>
 
         <p class="login">登录</p>
 
         <mu-form ref="form" :model="user" class="mu-demo-form">
-            <mu-form-item label="用户名" prop="username" :rules="usernameRules">
-                <mu-text-field v-model="user.username" prop="username"></mu-text-field>
+            <mu-form-item prop="username" :rules="usernameRules" icon="account_circle">
+                <mu-text-field v-model="user.username"  label-float prop="username"></mu-text-field>
             </mu-form-item>
-            <mu-form-item label="密码" prop="pwd" :rules="pwdRules">
-                <mu-text-field type="password" v-model="user.pwd" prop="pwd"></mu-text-field>
+            <mu-form-item prop="pwd" :rules="pwdRules" icon="locked">
+                <mu-text-field type="password" label-float   v-model="user.pwd" prop="pwd" :action-icon="visibility ? 'visibility_off' : 'visibility'" :action-click="() => (visibility = !visibility)" :type="visibility ? 'text' : 'password'"></mu-text-field>
             </mu-form-item>
-            <mu-form-item prop="isAgree" :rules="argeeRules">
+            <mu-form-item prop="isAgree" :rules="argeeRules" icon="agree">
                 <mu-checkbox label="同意用户协议" v-model="user.isAgree"></mu-checkbox>
                 <span class="r" @click="toReg">[注册]</span>
             </mu-form-item>
@@ -38,7 +36,7 @@
         name: "Login",
         data () {
             return {
-                linear: 0,
+
                 usernameRules: [
                     { validate: (val) => !!val, message: '必须填写用户名'},
                     { validate: (val) => val.length >= 3, message: '用户名长度大于3'}
@@ -52,7 +50,8 @@
                     pwd: '',
                     isAgree: false,
                     token:'123145'
-                }
+                },
+                visibility:true
             }
         },
         created () {
@@ -61,29 +60,16 @@
         methods: {
             submit () {
                 this.$refs.form.validate().then((result) => {
-                    console.log('form valid: ', result)
 
                     if(result){
-
-                        this.timer = setInterval(() => {
-                            this.linear += 30;
-                            if (this.linear > 90){
-                                this.linear = 90
-                                clearInterval(this.timer)
-                            }
-                        }, 1000)
-
                         let postData=Qs.stringify(this.user)
+                        console.log(postData)
                         http.post('/indexLogin',postData).then(res=>{
 
                             let {code,message} = res.data
 
                             if(code==='-1'){
-
-                                Message.alert('请刷新页面试试','消息提示')
-
-                                this.linear = 0
-
+                                Message.alert(message)
                             }else{
 
                                 let {user}=res.data.info
@@ -95,12 +81,10 @@
 
                         }).catch(err=>{
 
-                            Message.alert('网络请求失败','消息提示')
+                            console.log(err)
+
+                            Message.alert('当前访问人数太多','消息提示')
                         })
-
-
-
-                        console.log(postData)
                     }
 
                 });

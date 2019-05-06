@@ -19,13 +19,11 @@
         name: "UpdatePhoto",
         filters:{
             userPhoto(val){
-
                 if(val.includes('base64')){
                     return val
                 }else if(val.includes('/upload')){
                     return 'http://localhost:8080'+val;
                 }
-
             }
 
         },

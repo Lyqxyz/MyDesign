@@ -11,7 +11,7 @@
                         </mu-avatar>
                     </mu-list-item-action>
                     <mu-list-item-content>
-                        <mu-list-item-title>{{item.shBook.bookName}}</mu-list-item-title>
+                        <mu-list-item-title @click="go(item)">{{item.shBook.bookName}}</mu-list-item-title>
                         <mu-list-item-sub-title>
                             数量:{{item.shopCarCount}}=>
                             单价:{{item.shBook.bookSellingPrice}}=>
@@ -217,6 +217,10 @@
 
                 })
 
+            },
+            go(item){
+                this.$router.push({name:'Details',params:{id:item.shBook.bookId},query:{okBook:1,img:false}})
+                console.log(item)
             }
 
         },

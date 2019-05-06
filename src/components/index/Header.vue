@@ -12,21 +12,23 @@
                 <mu-list slot="content">
                     <mu-list-item  button :ripple="ripple" :to="{name:'Login'}">
                         <mu-list-item-action>
-                            <mu-icon value="grade"></mu-icon>
+                            <mu-icon value="person"></mu-icon>
                         </mu-list-item-action>
                         <mu-list-item-title>登录</mu-list-item-title>
                     </mu-list-item>
                     <mu-list-item button :ripple="ripple" @click="logout">
                         <mu-list-item-action>
-                            <mu-icon value="send"></mu-icon>
+                            <mu-icon value="close"></mu-icon>
                         </mu-list-item-action>
                         <mu-list-item-title>注销</mu-list-item-title>
                     </mu-list-item>
                     <mu-list-item button :ripple="ripple" :to="{name:'Sent'}">
                         <mu-list-item-action>
-                            <mu-icon value="sent"></mu-icon>
+                            <mu-icon value="send"></mu-icon>
                         </mu-list-item-action>
-                        <mu-list-item-title>待发货</mu-list-item-title>
+                        <mu-list-item-title>
+                            待发货
+                        </mu-list-item-title>
                     </mu-list-item>
                 </mu-list>
             </mu-menu>
@@ -35,60 +37,72 @@
             <mu-list>
                 <mu-list-item button>
                     <mu-avatar color="indigo">
-                        <mu-icon value="account_circle"></mu-icon>
+                        <img v-if="src!==null" :src="src | url" alt="用户头像">
+                        <mu-icon v-else value="account_circle"></mu-icon>
                     </mu-avatar>
-                    {{info.userName===null?'未登录':info.userName}}
+                    {{info.userName===null?'未登录':'昵称：'+info.userName}}
                 </mu-list-item>
                 <mu-list-item button :to="{name:'index'}">
                     <mu-list-item-action>
                         <mu-icon value="home"></mu-icon>
                     </mu-list-item-action>
                     <mu-list-item-title>首页</mu-list-item-title>
-                    <mu-list-item-action>
-                        <mu-button icon>
-                            <mu-icon value="info"></mu-icon>
-                        </mu-button>
-                    </mu-list-item-action>
+<!--                    <mu-list-item-action>-->
+<!--                        <mu-button icon>-->
+<!--                            <mu-icon value="info"></mu-icon>-->
+<!--                        </mu-button>-->
+<!--                    </mu-list-item-action>-->
                 </mu-list-item>
 
                 <mu-list-item button :to="{name:'updatePhoto'}">
                     <mu-list-item-action>
-                        <mu-icon value="grade"></mu-icon>
+                        <mu-icon value="camera_alt"></mu-icon>
                     </mu-list-item-action>
                     <mu-list-item-title>修改头像</mu-list-item-title>
-                    <mu-list-item-action>
-                        <mu-button icon>
-                            <mu-icon value="info"></mu-icon>
-                        </mu-button>
-                    </mu-list-item-action>
+<!--                    <mu-list-item-action>-->
+<!--                        <mu-button icon>-->
+<!--                            <mu-icon value=""></mu-icon>-->
+<!--                        </mu-button>-->
+<!--                    </mu-list-item-action>-->
                 </mu-list-item>
 
                 <mu-list-item button :to="{name:'MyPublish'}">
                     <mu-list-item-action>
-                        <mu-icon value="grade"></mu-icon>
+                        <mu-icon value="arrow_forward"></mu-icon>
                     </mu-list-item-action>
                     <mu-list-item-title>我发布的</mu-list-item-title>
                 </mu-list-item>
                 <mu-list-item button :to="{name:'ShopCar'}">
                     <mu-list-item-action>
-                        <mu-icon value="send"></mu-icon>
+                        <mu-icon value="local_grocery_store"></mu-icon>
                     </mu-list-item-action>
                     <mu-list-item-title>购物车</mu-list-item-title>
                 </mu-list-item>
 
                 <mu-list-item button :to="{name:'AllClass'}">
                     <mu-list-item-action>
-                        <mu-icon value="grade"></mu-icon>
+                        <mu-icon value="class"></mu-icon>
                     </mu-list-item-action>
                     <mu-list-item-title>分类</mu-list-item-title>
                 </mu-list-item>
                 <mu-list-item button :to="{name:'Order'}">
                     <mu-list-item-action>
-                        <mu-icon value="drafts"></mu-icon>
+                        <mu-icon value="inbox"></mu-icon>
                     </mu-list-item-action>
                     <mu-list-item-title>订单</mu-list-item-title>
                 </mu-list-item>
+
+                <mu-list-item button :to="{name:'find'}">
+                    <mu-list-item-action>
+                        <mu-icon value="search"></mu-icon>
+                    </mu-list-item-action>
+                    <mu-list-item-title>搜索</mu-list-item-title>
+                </mu-list-item>
+
                 <mu-list-item @click="open = false" button>
+                    <mu-list-item-action>
+                        <mu-icon value="close"></mu-icon>
+                    </mu-list-item-action>
                     <mu-list-item-title>关闭</mu-list-item-title>
                 </mu-list-item>
             </mu-list>
@@ -103,11 +117,9 @@
     export default {
         name: "Header",
         created(){
-
             let user = storage.getStorage('user',true)
-
             this.info=user;
-
+            this.src=user.userPhoto
         },
         data() {
             return {
@@ -117,8 +129,19 @@
                 position: 'left',
                 ripple:true,
                 user:[],
-                info:{}
+                info:{},
+                src:''
             }
+        },
+        filters:{
+            userPhoto(val){
+                if(val.includes('base64')){
+                    return val
+                }else if(val.includes('/upload')){
+                    return 'http://localhost:8080'+val;
+                }
+            }
+
         },
         methods:{
             scroll(){
@@ -143,6 +166,7 @@
                         if(result){
                             storage.removeStorage('user',true)
                             this.info={}
+                            this.src =null;
                         }
                     })
 
