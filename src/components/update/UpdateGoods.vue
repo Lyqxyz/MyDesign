@@ -21,6 +21,10 @@
                 <mu-slider v-model="goods.goodsNao" :max="max" :min="min"></mu-slider>
             </mu-form-item>
 
+            <mu-form-item prop="goodsNao" label="数量">
+                <mu-slider v-model="goods.goodsCount" :max="countMax" :min="countMin"></mu-slider>
+            </mu-form-item>
+
             <mu-form-item labelWidth="100%" prop="goodsOriginalPrice" label="原价" help-text="" :rules="goodsOriginalPriceRules">
                 <mu-text-field v-model="goods.goodsOriginalPrice"></mu-text-field>
             </mu-form-item>
@@ -101,6 +105,8 @@
 
                 max:10,
                 min:1,
+                countMax:999,
+                countMin:1,
                 options: [],
                 labelPosition: 'top',
                 goods: {
@@ -110,7 +116,7 @@
                     goodsSellingPrice:'',
                     goodsNao:1,
                     goodsDes:'',
-                    goodsCount:'',
+                    goodsCount:1,
                     goodsCid1:'',
                     uid:'',
                 }
@@ -119,12 +125,17 @@
         methods:{
 
             submit(){
+
+                this.goods.goodsNao= Math.round(this.goods.goodsNao)
+
+                this.goods.goodsCount =Math.floor(this.goods.goodsCount)
                 let postData=`
                 goodsId=${this.goods.goodsId}
                 &goodsTitle=${this.goods.goodsTitle}
                 &goodsOriginalPrice=${this.goods.goodsOriginalPrice}
                 &goodsSellingPrice=${this.goods.goodsSellingPrice}
                 &goodsNao=${this.goods.goodsNao}
+                &goodsCount=${this.goods.goodsCount}
                 &goodsDes=${this.goods.goodsDes}
                 &goodsCid1=${this.goods.goodsCid1}`
 

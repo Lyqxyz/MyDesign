@@ -29,8 +29,11 @@
                 <mu-form-item prop="bookNao" label="新旧">
                     <mu-slider v-model="book.bookNao" :max="max" :min="min"></mu-slider>
                 </mu-form-item>
+                <mu-form-item prop="bookNao" label="数量">
+                    <mu-slider v-model="book.bookCount" :max="countMax" :min="countMin"></mu-slider>
+                </mu-form-item>
                 <mu-form-item prop="bookDes" label="描述">
-                    <mu-text-field multi-line :rows="3" :rows-max="6" v-model="book.bookDes"></mu-text-field>
+                    <mu-text-field multi-line :rows="3" :rows-max="6" v-model="book.countMin"></mu-text-field>
                 </mu-form-item>
                 <mu-form-item>
                     <mu-button color="primary" @click="submit" textColor="black">提交</mu-button>
@@ -86,18 +89,19 @@
                 ],
                 max:10,
                 min:1,
+                countMax:999,
+                countMin:1,
                 options: [
 
                 ],
                 labelPosition: 'top',
                 book: {
-
                     bookName:'',
                     bookIsbn:'',
                     bookAuthor:'',
                     bookDes:'',
                     bookCid:'',
-                    bookCount:'',
+                    bookCount:1,
                     bookNao:1,
                     bookSellingPrice:'',
                     bookOriginalPrice:'',
@@ -110,8 +114,6 @@
             submit () {
                 this.$refs.form.validate().then((result) => {
 
-
-
                     if(result){
 
                         let user = storage.getStorage('user',true)
@@ -122,20 +124,21 @@
 
                         this.book.bookNao = Math.round(this.book.bookNao)
 
+                        this.book.bookCount=Math.floor(this.book.bookCount)
+
                         let a =Qs.stringify(this.book)
 
                         http.post('/book/add',a).then(res=>{
 
-                            let {code,info,message} = res.data;
+                            let {code,info,message,errors} = res.data;
 
                             if(code==='-1'){
 
-                                Message.alert(message+'请检查参数！！！','消息提示')
+                                let e = errors.errors.join(' ')
 
+                                Message.alert(message+'  '+e+'请检查参数！！！','消息提示')
                             }else{
-
                                 let {bookId} =info.book;
-
                                 this.$router.push({name:'AddImage',params:{id:bookId},query:{isBook:true}})
                             }
                         }).catch(err=>{

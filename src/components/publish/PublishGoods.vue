@@ -20,6 +20,9 @@
             <mu-form-item prop="goodsNao" label="新旧">
                 <mu-slider v-model="goods.goodsNao" :max="max" :min="min"></mu-slider>
             </mu-form-item>
+            <mu-form-item prop="goodsNao" label="数量">
+                <mu-slider v-model="goods.goodsCount" :max="countMax" :min="countMin"></mu-slider>
+            </mu-form-item>
 
             <mu-form-item labelWidth="100%" prop="goodsOriginalPrice" label="原价" help-text="" :rules="goodsOriginalPriceRules">
                 <mu-text-field v-model="goods.goodsOriginalPrice"></mu-text-field>
@@ -90,6 +93,8 @@
 
                 max:10,
                 min:1,
+                countMax:999,
+                countMin:1,
                 options: [],
                 labelPosition: 'top',
                 goods: {
@@ -99,7 +104,7 @@
                     goodsSellingPrice:'',
                     goodsNao:1,
                     goodsDes:'',
-                    goodsCount:'',
+                    goodsCount:1,
                     goodsCid1:'',
                     uid:'',
                 }
@@ -113,6 +118,7 @@
 
                     this.goods.goodsNao= Math.round(this.goods.goodsNao)
 
+                    this.goods.goodsCount =Math.floor(this.goods.goodsCount)
                     let user = storage.getStorage('user',true)
 
                     let userId= user.userId;

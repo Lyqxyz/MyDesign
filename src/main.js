@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import App from './App.vue'
-
 import router from './router'
 import store from './store'
 import MuseUI from 'muse-ui';
@@ -16,16 +15,17 @@ Vue.use(MuseUI)
 
 Vue.filter('url',(value)=>{
 
+    if(value===null||value===''||value===undefined||value==='undefined'){
+        return 'http://localhost:8080/img/no.jpg'
+    }
     return 'http://localhost:8080'+value;
 
 })
 Vue.filter('handleNull',(value)=>{
-
     if(value===undefined){
         return '匿名'
     }
     return value ==null?'匿名' :value;
-
 })
 
 Vue.filter('pass',(value)=>{
@@ -45,6 +45,14 @@ Vue.filter('pass',(value)=>{
 Vue.filter('day',(value)=>{
 
     return  dayjs().to(dayjs(value))
+})
+
+Vue.filter('userPhoto',(value)=>{
+
+    if(value===null||value===''||value===undefined||value==='undefined'){
+        return 'http://localhost:8080/img/timg.jpg'
+    }
+    return 'http://localhost:8080'+value;
 })
 
 new Vue({

@@ -5,13 +5,13 @@
             <mu-card style="width: 100%; max-width: 375px; margin: 0 auto;" v-if="okBook===1">
                 <mu-card-header :title="'发布者:'+user.userName" :sub-title="'电话:'+user.userPhone">
                     <mu-avatar slot="avatar">
-                        <img :src="user.userPhoto | url">
+                        <img :src="user.userPhoto | userPhoto">
                     </mu-avatar>
                 </mu-card-header>
                 <mu-card-media :title="'书名:'+info.bookName" :sub-title="'作者:'+info.bookAuthor">
                     <img :src="img.desInfo | url">
                 </mu-card-media>
-                <mu-card-title :title="'售价:'+info.bookSellingPrice+'<===>'+info.bookNao+'成新'" :sub-title="'原价:'+info.bookOriginalPrice"></mu-card-title>
+                <mu-card-title :title="'售价:'+info.bookSellingPrice+'元'+'  '+info.bookNao+'成新'+'          '+'库存:'+info.bookCount" :sub-title="'原价:'+info.bookOriginalPrice+'元'+'         '+'ISBN:'+info.bookIsbn"></mu-card-title>
                 <mu-card-text>
                     {{info.bookDes}}
                 </mu-card-text>
@@ -19,16 +19,17 @@
                     <mu-button full-width flat color="primary" @click="addShopCar">加入购物车</mu-button>
                 </mu-card-actions>
             </mu-card>
+<!--            ==========================================-->
             <mu-card style="width: 100%; max-width: 375px; margin: 0 auto;" v-if="okBook===0">
                 <mu-card-header :title="'昵称:'+user.userName" :sub-title="'电话:'+user.userPhone">
                     <mu-avatar slot="avatar">
-                        <img :src="user.userPhoto | url">
+                        <img :src="user.userPhoto | userPhoto">
                     </mu-avatar>
                 </mu-card-header>
                 <mu-card-media :title="'商品标题:'+info.goodsTitle" sub-title="">
                     <img :src="img.desInfo | url">
                 </mu-card-media>
-                <mu-card-title :title="'售价:'+info.goodsSellingPrice+'<===>'+info.goodsNao+'成新'" :sub-title="'原价:'+info.goodsOriginalPrice"></mu-card-title>
+                <mu-card-title :title="'售价:'+info.goodsSellingPrice+'元'+'  '+info.goodsNao+'成新'+'  '+'库存:'+info.goodsCount" :sub-title="'原价:'+info.goodsOriginalPrice"></mu-card-title>
                 <mu-card-text>
                     {{info.goodsDes}}
                 </mu-card-text>
@@ -65,20 +66,22 @@
                     this.info = res.data.info.data;
                     this.info.img= img;
                     this.user= this.info.shUser
+                    console.log(this.info)
                 }).catch(err=>{
                 })
-
                 api.get(`/bookDes/search/${id}`).then(res=>{
-                    this.img=res.data.info.BookDesInfo[0]===null?{}:res.data.info.BookDesInfo[0]
+                    console.log(res.data.info.BookDesInfo[0])
+                    this.img=res.data.info.BookDesInfo[0]===undefined?{desInfo:null}:res.data.info.BookDesInfo[0]
                     console.log(this.img);
                 })
+
             }else{
 
                 api.get(`/goods/${id}`).then(res=>{
 
                     this.info = res.data.info.data;
                     console.log(this.info)
-                    this.info.img= img;
+                    // this.info.img= img;
                     this.user= this.info.shUser
 
                 }).catch(err=>{
@@ -88,16 +91,14 @@
                 })
 
                 api.get(`/goodsDes/search/${id}`).then(res=>{
-                    this.img=res.data.info.BookDesInfo[0]===null?{}:res.data.info.BookDesInfo[0]
+
+                    this.img=res.data.info.BookDesInfo[0]===undefined?{desInfo:null}:res.data.info.BookDesInfo[0]
 
                     console.log(this.img);
                 })
 
-
             }
-
             console.log(id,okBook)
-
         },
         data(){
 
@@ -135,23 +136,24 @@
                     okBook:this.okBook,
                     count:1
                 }
-
                 api.post('/shopcar/add',Qs.stringify(a)).then(res=>{
 
                     let {code,message} = res.data
 
                     if(code==='-1'){
 
-                        Message.alert('添加失败')
+                        Message.alert(message)
+
                     }else{
 
-                        Message.alert('添加成功')
-                    }
+                        Message.alert(message)
 
+                    }
 
                 }).catch(err=>{
 
-                    Message.alert('网络请求失败','消息提示')
+                    console.log(err)
+                    Message.alert('当前访问人数太多了','消息提示')
 
                 })
 
@@ -179,11 +181,9 @@
 
                         Message.alert('添加成功')
                     }
-
-
                 }).catch(err=>{
-
-                    Message.alert('网络请求失败','消息提示')
+                    console.log(err)
+                    Message.alert('当前访问人数太多了','消息提示')
 
                 })
 

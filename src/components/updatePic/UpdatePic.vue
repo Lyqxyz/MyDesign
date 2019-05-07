@@ -60,16 +60,12 @@
 
                 }
 
-
             },
             upload(){
-
                 if(this.file===null){
                     Message.alert('请选择一张图片')
                 }else{
-
                     let fd = new FormData()
-
                     fd.append('file',this.file[0])
                     fd.append('id', this.id)
                     http.post(this.url,fd,{
@@ -77,9 +73,7 @@
                             'Content-Type':'multipart/form-data'
                         }
                     }).then(res=>{
-
                         let {message} = res.data
-
                         Message.alert(message)
                         console.log(res.data)
 

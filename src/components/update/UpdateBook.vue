@@ -29,6 +29,10 @@
                 <mu-form-item prop="bookNao" label="新旧">
                     <mu-slider v-model="book.bookNao" :max="max" :min="min"></mu-slider>
                 </mu-form-item>
+
+                <mu-form-item prop="bookNao" label="数量">
+                    <mu-slider v-model="book.bookCount" :max="countMax" :min="countMin"></mu-slider>
+                </mu-form-item>
                 <mu-form-item prop="bookDes" label="描述">
                     <mu-text-field multi-line :rows="3" :rows-max="6" v-model="book.bookDes"></mu-text-field>
                 </mu-form-item>
@@ -99,6 +103,8 @@
                     { validate: (val) => !!val, message: '必须填写售价'},
                     { validate: (val) => parseInt(val)>0, message: '售价不合法'},
                 ],
+                countMax:999,
+                countMin:1,
                 max:10,
                 min:1,
                 options: [
@@ -111,7 +117,7 @@
                     bookAuthor:'',
                     bookDes:'',
                     bookCid:'',
-                    bookCount:'',
+                    bookCount:1,
                     bookNao:1,
                     bookSellingPrice:'',
                     bookOriginalPrice:'',
@@ -128,6 +134,7 @@
             },
             submit(){
                 let nao = Math.round(this.book.bookNao)
+                let count = Math.floor(this.book.bookCount)
                 let postData = `bookId=${this.book.bookId}
                                 &bookName=${this.book.bookName}
                                 &bookIsbn=${this.book.bookIsbn}
@@ -136,6 +143,7 @@
                                 &bookOriginalPrice=${this.book.bookOriginalPrice}
                                 &bookSellingPrice=${this.book.bookSellingPrice}
                                 &bookNao=${nao}
+                                &bookCount=${count}
                                 &bookDes=${this.book.bookDes}
                                 &bookCid=${this.book.bookCid}`
 
