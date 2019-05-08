@@ -16,7 +16,7 @@
                     {{info.bookDes}}
                 </mu-card-text>
                 <mu-card-actions>
-                    <mu-button full-width flat color="primary" @click="addShopCar">加入购物车</mu-button>
+                    <mu-button full-width flat color="primary" @click="addShopCar1">加入购物车</mu-button>
                 </mu-card-actions>
             </mu-card>
 <!--            ==========================================-->
@@ -34,7 +34,7 @@
                     {{info.goodsDes}}
                 </mu-card-text>
                 <mu-card-actions>
-                    <mu-button full-width flat color="primary" @click="addGoodsToShopCar">加入购物车</mu-button>
+                    <mu-button full-width flat color="primary" @click="addShopCar1">加入购物车</mu-button>
                 </mu-card-actions>
             </mu-card>
         </div>
@@ -113,41 +113,81 @@
         },
         methods:{
 
-            addShopCar(){
+            addShopCar1(){
+
                 let user = stroage.getStorage('user',true)
 
-                console.log(typeof user)
-
-                console.log(user)
                 if(user.length===0){
 
                     Message.alert('亲，你还没有登录哟','登录').then(res=>{
                         let {result} = res
                         this.$router.replace({name:'Login'})
                     })
-
                     return;
                 }
+
+                Message.prompt('购买数量','消息提示').then(res=>{
+
+                        let {result,value} = res
+
+                        if(result){
+
+                            let checkNum=/^\d+$/
+                            if(checkNum.test(value)&&parseInt(value)>0){
+
+                                    if(this.okBook===1){
+
+                                        if(this.info.bookCount<parseInt(value)){
+                                            Message.alert('库存可能不足','消息提示')
+                                        }else{
+
+                                            this.addShopCar(parseInt(value))
+
+                                        }
+                                        console.log('书籍')
+                                    }else{
+
+                                        if(this.info.goodsCount<parseInt(value)){
+
+                                            Message.alert('库存可能不足','消息提示')
+
+                                        }else{
+
+                                            this.addGoodsToShopCar(parseInt(value))
+                                        }
+                                        console.log('闲置')
+                                    }
+
+
+                            }else{
+                                Message.alert('请输入正确数量','错误提示')
+                            }
+
+                        }
+
+                })
+            },
+
+            addShopCar(num){
+
+                let user = stroage.getStorage('user',true)
+
                 let uid=user.userId;
                 let gid = this.info.bookId
                 let a ={
                     uid,
                     gid,
                     okBook:this.okBook,
-                    count:1
+                    count:num
                 }
                 api.post('/shopcar/add',Qs.stringify(a)).then(res=>{
 
                     let {code,message} = res.data
 
                     if(code==='-1'){
-
                         Message.alert(message)
-
                     }else{
-
                         Message.alert(message)
-
                     }
 
                 }).catch(err=>{
@@ -159,7 +199,7 @@
 
 
             },
-            addGoodsToShopCar(){
+            addGoodsToShopCar(num){
                 let user = stroage.getStorage('user',true)
                 let uid=user.userId;
                 let gid = this.info.goodsId
@@ -167,9 +207,8 @@
                     uid,
                     gid,
                     okBook:this.okBook,
-                    count:1
+                    count:num
                 }
-
                 api.post('/shopcar/add',Qs.stringify(a)).then(res=>{
 
                     let {code,message} = res.data
@@ -180,6 +219,7 @@
                     }else{
 
                         Message.alert('添加成功')
+
                     }
                 }).catch(err=>{
                     console.log(err)

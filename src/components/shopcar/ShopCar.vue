@@ -5,11 +5,18 @@
         <mu-paper :z-depth="1" class="demo-list-wrap">
             <mu-list v-for="item in info" :key="item.shopCarId" textline="two-line">
                 <mu-list-item v-if="item.shopCarOkBook===1" avatar button :ripple="false">
+
+                    <mu-list-item-action>
+<!--                        <mu-switch v-model="state[item.shopCarId].check"></mu-switch>-->
+                        <mu-checkbox v-model="state" :value="item.shopCarId"></mu-checkbox>
+                    </mu-list-item-action>
+
                     <mu-list-item-action>
                         <mu-avatar>
                             <mu-icon color="primary" value="book"></mu-icon>
                         </mu-avatar>
                     </mu-list-item-action>
+
                     <mu-list-item-content>
                         <mu-list-item-title @click="go(item)">{{item.shBook.bookName}}</mu-list-item-title>
                         <mu-list-item-sub-title>
@@ -24,8 +31,11 @@
                         </mu-button>
                     </mu-list-item-action>
                 </mu-list-item>
-
+<!--                =======================-->
                 <mu-list-item v-if="item.shopCarOkBook===0" avatar button :ripple="false">
+                    <mu-list-item-action>
+                        <mu-checkbox v-model="state" :value="item.shopCarId"></mu-checkbox>
+                    </mu-list-item-action>
                     <mu-list-item-action>
                         <mu-avatar>
                             <mu-icon value="folder"></mu-icon>
@@ -48,10 +58,10 @@
             </mu-list>
         </mu-paper>
         <mu-row  v-if="!has">
-            <p class="shopCar">总价：{{price}}元</p>
+            <p class="shopCar">全部总价：{{price}}元 <===> 已选中的总价:{{selectedPrice}}元</p>
         </mu-row>
         <mu-row v-if="!has">
-            <mu-button round :disabled="disabled" full-width color="primary" @click="order">{{text}}</mu-button>
+            <mu-button round :disabled="disabled" full-width color="primary" @click="order1">{{text}}</mu-button>
         </mu-row>
     </div>
 </template>
@@ -73,7 +83,6 @@
         name: "shopcar",
         components: {CommonHeader},
         created() {
-
             let user = storage.getStorage("user",true)
 
             let userId= user.userId;
@@ -82,11 +91,12 @@
 
             http.get(url).then(res=>{
                 this.info = res.data.info.data
-                console.log(res)
+                this.info.forEach(item=>{
+                    this.state.push(item.shopCarId)
+                })
             }).catch(err=>{
-
+                console.log(err)
                 Message.alert('网络错误请稍后再试!!!','消息提示')
-
             })
         },
         data(){
@@ -94,7 +104,9 @@
             return {
                 info:[],
                 disabled:false,
-                text:'收入口袋'
+                text:'收入口袋',
+                state:[],
+
             }
         },
         methods:{
@@ -147,9 +159,7 @@
 
 
             },
-            order(){
-
-
+            order(info){
                 Message.prompt('请输入收货地址','消息提示').then(res=>{
 
                     let {result,value} = res
@@ -172,7 +182,7 @@
 
                             let orderAddress=value
 
-                            let shopcars = JSON.stringify(this.info)
+                            let shopcars = JSON.stringify(info)
 
                             let data ={
 
@@ -203,13 +213,13 @@
 
                             }).catch(err=>{
 
+                                console.log(err)
                                 Message.alert('服务器错误，请稍后再试','消息提示')
 
                             })
 
                         }
                     }
-
 
                 }).catch(err=>{
 
@@ -220,14 +230,34 @@
             },
             go(item){
                 this.$router.push({name:'Details',params:{id:item.shBook.bookId},query:{okBook:1,img:false}})
-                console.log(item)
-            }
+            },
 
+            order1(){
+
+                let info = []
+                if(this.state.length===0){
+
+                    Message.alert('请选择一件商品','消息提示')
+                }else{
+
+                    this.state.forEach(shopCarId=>{
+
+                        this.info.find((item,index)=>{
+
+                            if(item.shopCarId===shopCarId){
+
+                                info.push(item)
+                            }
+                        })
+                    })
+                    this.order(info)
+
+                }
+                console.log(this.state)
+            }
         },
         computed:{
-
             has(){
-
                 return this.info.length===0;
             },
             price(){
@@ -247,8 +277,33 @@
                     })
                     return num;
                 }
-            }
+            },
 
+            selectedPrice(){
+                if(this.state.length===0){
+                    return 0;
+                }else{
+                    let num=0;
+
+                    this.state.forEach(shopCarId=>{
+                        this.info.find(item=>{
+
+                            if(item.shopCarId===shopCarId){
+                                if(item.shopCarOkBook===1){
+
+                                    num+=parseFloat(item.shopCarCount) * parseFloat(item.shBook.bookSellingPrice)
+                                }else {
+
+                                    num+=parseFloat(item.shopCarCount) * parseFloat(item.shGoods.goodsSellingPrice)
+                                }
+                            }
+
+                        })
+                    })
+                    return num;
+                }
+
+            }
         }
     }
 </script>
