@@ -7,11 +7,10 @@
                 </mu-button>
             </mu-col>
             <mu-col span="10">
-                <mu-auto-complete @change="nameChange" :action-click="search" prefix="关键字" action-icon="search" :data="items" underline-color="info" :full-width="full_width" :max-search-results="max_search_results" v-model="searchName">
+                <mu-auto-complete @change="nameChange" :action-click="search" prefix="关键词" action-icon="search" :data="items" underline-color="info" :full-width="full_width" :max-search-results="max_search_results" v-model="searchName">
                 </mu-auto-complete>
             </mu-col>
         </mu-row>
-
         <mu-row gutter v-for="(item,index) in book" :key="item.bookId" @click="goDetail(item)" class="mt">
             <mu-col span="12" v-html=" '书名:'+item.bookName +'  '+'作者:'+item.bookAuthor+'  '+ '出版商:'+item.bookPublish">
             </mu-col>
@@ -23,14 +22,16 @@
                 item.bookDes">
             </mu-col>
 
-            <mu-divider shallow-inset></mu-divider>
+<!--            <mu-divider shallow-inset></mu-divider>-->
+
+            <div class="divider"></div>
         </mu-row>
         <mu-row gutter v-for="(item,index) in goods" :key="item.goodsId" @click="goDetail(item)" class="mt">
             <mu-col span="12" v-html="'商品标题:'+item.goodsTitle">
             </mu-col>
             <mu-col class="pk" v-html="'商品描述'+item.goodsDes">
             </mu-col>
-            <mu-divider shallow-inset></mu-divider>
+            <div class="divider"></div>
         </mu-row>
 <!--        <mu-row v-if="hasSearch">-->
 <!--            <mu-col span="8">-->
@@ -103,7 +104,7 @@
 
                         if(info.book.length===0&&info.goods.length===0){
 
-                            Message.alert("亲，没有查到哟,换一个词试试!",'搜索建议')
+                            Message.alert("亲，没有查到哟,换一个关键词试试!",'搜索建议')
                         }
                     }
                     Progress.done();
@@ -148,7 +149,6 @@
 
             }
 
-
         }
     }
 </script>
@@ -168,5 +168,11 @@
     }
     .pk{
         word-break: break-word;
+    }
+    .divider{
+        background-color: darkmagenta;
+        height: 2px;
+        width: 100%;
+        margin-top: 5px;
     }
 </style>

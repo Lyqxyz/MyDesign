@@ -33,7 +33,7 @@
                     <mu-slider v-model="book.bookCount" :max="countMax" :min="countMin"></mu-slider>
                 </mu-form-item>
                 <mu-form-item prop="bookDes" label="描述">
-                    <mu-text-field multi-line :rows="3" :rows-max="6" v-model="book.countMin"></mu-text-field>
+                    <mu-text-field multi-line :rows="3" :rows-max="6" v-model="book.bookDes"></mu-text-field>
                 </mu-form-item>
                 <mu-form-item>
                     <mu-button color="primary" @click="submit" textColor="black">提交</mu-button>
@@ -105,6 +105,7 @@
                     bookNao:1,
                     bookSellingPrice:'',
                     bookOriginalPrice:'',
+                    bookState:0,
                     bookPublish:'',
                     uid:'',
                 }

@@ -40,7 +40,7 @@
                         <img v-if="src!==null" :src="src | url" alt="用户头像">
                         <mu-icon v-else value="account_circle"></mu-icon>
                     </mu-avatar>
-                    {{info.userName===null?'未登录':'昵称：'+info.userName}}
+                    {{info.userName===undefined?'未登录':'昵称：'+info.userName}}
                 </mu-list-item>
                 <mu-list-item button :to="{name:'index'}">
                     <mu-list-item-action>

@@ -106,6 +106,7 @@
                     goodsDes:'',
                     goodsCount:1,
                     goodsCid1:'',
+                    goodsState:0,
                     uid:'',
                 }
             }
