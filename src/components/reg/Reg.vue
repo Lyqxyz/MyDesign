@@ -18,12 +18,17 @@
             <mu-form-item label="邮箱" prop="email" :rules="emailRules">
                 <mu-text-field v-model="reg.email" prop="email"></mu-text-field>
             </mu-form-item>
+
+            <mu-form-item label="验证码" prop="code" :rules="codeRules">
+                <mu-text-field v-model="reg.code" prop="email"></mu-text-field>
+            </mu-form-item>
             <mu-form-item>
                <span class="lo" @click="toLogin">[登录]</span>
             </mu-form-item>
             <mu-form-item>
+                <mu-button color="primary" @click="sendMail" :disabled="disabled">{{text}}</mu-button>
                 <mu-button color="primary" @click="submit">注册</mu-button>
-                <mu-button @click="clear">重置</mu-button>
+                <mu-button color="warning" @click="clear">重置</mu-button>
             </mu-form-item>
         </mu-form>
 
@@ -51,8 +56,7 @@
                 pwdRules: [
                     { validate: (val) => !!val, message: '必须填写密码'},
                 ],
-
-               numRules: [
+                numRules: [
                     { validate: (val) => !!val, message: '必须填写密码'},
                 ],
                 emailRules: [
@@ -66,7 +70,6 @@
                             }
                         },message:'邮箱格式不对'}
                 ],
-
                 phoneRules: [
                     { validate: (val) => !!val, message: '必须填写电话'},
 
@@ -83,14 +86,21 @@
                     }
 
                 ],
+                codeRules:[
+
+                    { validate: (val) => !!val, message: '必须填写密码'},
+                ],
                 reg:{
                     num:'',
                     name:'',
                     password:'',
                     email:'',
                     phone:'',
-
+                    code:'',
                 },
+                text:'发送验证码至邮箱',
+                disabled:false,
+
             }
         },
         name: "Reg",
@@ -150,6 +160,50 @@
 
                 this.$router.replace({name:'Login'})
 
+            },
+            sendMail(){
+
+                if(this.reg.email===''){
+                    Message.alert('请输入邮箱')
+                    return;
+                }
+                let isEmail =/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+                if(!isEmail.test(this.reg.email)) {
+                    Message.alert('邮箱格式不正确')
+                    return;
+                }
+                http.get(`/email/sendCode/${this.reg.email}`).then(res=>{
+                    let {code,message} = res.data
+                    if(code==='1'){
+
+                        Message.alert(message)
+                        this.intiEmail();
+
+                    }else{
+                        Message.alert(message)
+                    }
+
+                }).catch(err=>{
+                    console.log(err)
+                    Message.alert('邮箱不存在')
+                })
+
+            },
+            intiEmail(){
+                let second=60
+                this.disabled=true
+                this.tid = setInterval(()=>{
+                    if(second<=0){
+                        this.disabled=false
+                        this.text='发送验证码至邮箱'
+                        clearInterval(this.tid)
+                    }else{
+                        this.text = second+'s'
+                        second = second-1;
+                        console.log(second)
+                    }
+
+                },1000)
             }
         }
     }
