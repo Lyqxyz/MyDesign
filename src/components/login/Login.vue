@@ -14,6 +14,8 @@
             <mu-form-item prop="isAgree" :rules="argeeRules" icon="agree">
                 <mu-checkbox label="同意用户协议" v-model="user.isAgree"></mu-checkbox>
                 <span class="r" @click="toReg">[注册]</span>
+                <span>&nbsp;</span>
+                <span class="r" @click="forget">[忘记密码]</span>
             </mu-form-item>
             <mu-form-item>
                 <mu-button color="primary" @click="submit">提交</mu-button>
@@ -38,7 +40,7 @@
             return {
 
                 usernameRules: [
-                    { validate: (val) => !!val, message: '必须填写用户名'},
+                    { validate: (val) => !!val, message: '必须填写学号'},
                     { validate: (val) => val.length >= 3, message: '用户名长度大于3'}
                 ],
                 pwdRules: [
@@ -98,9 +100,10 @@
                 };
             },
             toReg(){
-
                 this.$router.push({name:'Reg'})
-
+            },
+            forget(){
+                this.$router.push({name:'forget'})
             }
         }
     }

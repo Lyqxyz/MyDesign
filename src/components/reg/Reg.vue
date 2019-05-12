@@ -115,6 +115,7 @@
 
                             .then(res=>{
 
+                                let {message} =res.data
                             if(res.data.code==='1'){
 
                                 Message.alert('注册成功').then(res=>{
@@ -123,16 +124,17 @@
                                 })
 
                             }else {
-
                                 let Result = res.data.errors.AllError
 
-                                let r = res.data.errors.attrsErrors.join(' ')
+                                if(res.data.errors.attrsErrors){
 
-                                console.log(Result)
+                                    let r = res.data.errors.attrsErrors.join(' ')
 
-                                console.log(r)
+                                    Message.alert(r,'消息提示')
+                                }else {
+                                    Message.alert(message)
+                                }
 
-                                Message.alert(r,'消息提示')
                             }
 
                         }).catch(err=>{
@@ -185,7 +187,8 @@
 
                 }).catch(err=>{
                     console.log(err)
-                    Message.alert('邮箱不存在')
+                    this.intiEmail()
+                    Message.alert('邮箱已发送')
                 })
 
             },
@@ -200,11 +203,22 @@
                     }else{
                         this.text = second+'s'
                         second = second-1;
-                        console.log(second)
                     }
 
                 },1000)
-            }
+            },
+            // test(e){
+            //
+            //     e.preventDefault()
+            //     http.timeout=50000
+            //     http.post('/email/test',`email=${this.reg.email}`).then(res=>{
+            //
+            //         console.log(res.data)
+            //     }).catch(err=>{
+            //
+            //         console.log(err)
+            //     })
+            // }
         }
     }
 </script>
