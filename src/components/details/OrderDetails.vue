@@ -24,6 +24,9 @@
                         </mu-button>
                     </mu-list-item-action>
                 </mu-list-item>
+
+
+<!--                ==========================-->
                 <mu-list-item v-if="item.goIsBook===0" avatar button :ripple="false">
                     <mu-list-item-action>
                         <mu-avatar>
@@ -119,6 +122,10 @@
 
             ok(){
 
+                if(this.isPay!==1){
+                    Message.alert('你还没有付款啦')
+                    return;
+                }
                 Message.confirm('请确认收到货','消息提示').then(res=>{
 
                     let {result,value} = res;

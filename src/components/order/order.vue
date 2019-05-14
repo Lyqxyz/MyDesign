@@ -67,7 +67,7 @@
         methods:{
             goOrder(item){
                 this.$router.push({name:'OrderDetails',
-                    params:{id:item.orderId},query:{isPay:item.orderIsPay,Receipt:item.orderReceipt,address:item.orderAddress}})
+                    params:{id:item.orderNum},query:{isPay:item.orderIsPay,Receipt:item.orderReceipt,address:item.orderAddress}})
             }
 
         },

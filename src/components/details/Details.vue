@@ -171,7 +171,6 @@
             addShopCar(num){
 
                 let user = stroage.getStorage('user',true)
-
                 let uid=user.userId;
                 let gid = this.info.bookId
                 let a ={
