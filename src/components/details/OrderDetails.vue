@@ -3,7 +3,7 @@
 
         <common-header title="订单详情"/>
         <mu-paper :z-depth="1" class="demo-list-wrap">
-            <mu-list v-for="item in orders" :key="item.goId" textline="two-line">
+            <mu-list v-for="(item,index) in orders" :key="item.goId" textline="two-line">
                 <mu-list-item v-if="item.goIsBook===1" avatar button :ripple="false">
                     <mu-list-item-action>
                         <mu-avatar>
@@ -18,8 +18,8 @@
                             {{item.goCreationTime | day }}
                         </mu-list-item-sub-title>
                     </mu-list-item-content>
-                    <mu-list-item-action>
-                        <mu-button icon >
+                    <mu-list-item-action v-if="isPay===0">
+                        <mu-button icon @click="del(item,index)">
                             <mu-icon color="red" value="delete"></mu-icon>
                         </mu-button>
                     </mu-list-item-action>
@@ -30,7 +30,7 @@
                 <mu-list-item v-if="item.goIsBook===0" avatar button :ripple="false">
                     <mu-list-item-action>
                         <mu-avatar>
-                            <mu-icon value="folder"></mu-icon>
+                            <mu-icon value="favorite" color="red"></mu-icon>
                         </mu-avatar>
                     </mu-list-item-action>
                     <mu-list-item-content>
@@ -41,8 +41,8 @@
                             {{item.goCreationTime | day }}
                         </mu-list-item-sub-title>
                     </mu-list-item-content>
-                    <mu-list-item-action>
-                        <mu-button icon >
+                    <mu-list-item-action v-if="isPay===0">
+                        <mu-button icon @click="del(item,index)">
                             <mu-icon color="red" value="delete"></mu-icon>
                         </mu-button>
                     </mu-list-item-action>
@@ -255,6 +255,21 @@
                     Message.alert('服务器错误','消息提示')
                 })
 
+            },
+            del(item,index){
+                if(this.orders.length===1){
+                    Message.alert('只有一个商品了，请取消订单')
+                    return;
+                }
+                http.get(`/GoodsOrder/del/${item.goId}`).then(res=>{
+                    let {code,message}=res.data
+                    Message.alert(message)
+                    this.orders.splice(index,1)
+                }).catch(err=>{
+                    Message.alert('当前访问人数过多，请稍后访问')
+                    console.log(err)
+                })
+                console.log(item)
             }
         },
         computed:{

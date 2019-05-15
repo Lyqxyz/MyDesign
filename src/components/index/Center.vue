@@ -6,7 +6,7 @@
                     <mu-list-item value="publish" avatar button :ripple="ripple">
                         <mu-list-item-action>
                             <mu-avatar>
-                                <mu-icon value="folder"></mu-icon>
+                                <mu-icon value="favorite" color="red"></mu-icon>
                             </mu-avatar>
                         </mu-list-item-action>
                         <mu-list-item-content>
@@ -17,7 +17,7 @@
                     <mu-list-item value="change" avatar button :ripple="ripple" @click="no">
                         <mu-list-item-action>
                             <mu-avatar>
-                                <mu-icon value="folder"></mu-icon>
+                                <mu-icon value="favorite" color="red"></mu-icon>
                             </mu-avatar>
                         </mu-list-item-action>
                         <mu-list-item-content>
@@ -28,7 +28,7 @@
                     <mu-list-item avatar button :ripple="ripple" @click="no">
                         <mu-list-item-action>
                             <mu-avatar>
-                                <mu-icon value="folder"></mu-icon>
+                                <mu-icon value="favorite" color="red"></mu-icon>
                             </mu-avatar>
                         </mu-list-item-action>
                         <mu-list-item-content>
