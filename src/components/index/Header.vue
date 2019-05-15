@@ -59,11 +59,13 @@
                         <mu-icon value="camera_alt"></mu-icon>
                     </mu-list-item-action>
                     <mu-list-item-title>修改头像</mu-list-item-title>
-<!--                    <mu-list-item-action>-->
-<!--                        <mu-button icon>-->
-<!--                            <mu-icon value=""></mu-icon>-->
-<!--                        </mu-button>-->
-<!--                    </mu-list-item-action>-->
+                </mu-list-item>
+
+                <mu-list-item button :to="{name:'forget'}">
+                    <mu-list-item-action>
+                        <mu-icon value="class"></mu-icon>
+                    </mu-list-item-action>
+                    <mu-list-item-title>修改密码</mu-list-item-title>
                 </mu-list-item>
 
                 <mu-list-item button :to="{name:'MyPublish'}">

@@ -34,6 +34,9 @@
     import http from '../../api'
     export default {
         name: "Forget",
+        created(){
+            sessionStorage.clear();
+        },
         data(){
 
             return {

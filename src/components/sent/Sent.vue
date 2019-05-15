@@ -100,9 +100,15 @@
                             发货状态:{{item.goState | state}}
                         </mu-list-item-title>
                     </mu-list-item>
+
+                    <mu-list-item button :ripple="false" v-if="item.goState===-1">
+                        <mu-list-item-title>
+                            未发货原因:{{item.goRes}}
+                        </mu-list-item-title>
+                    </mu-list-item>
                     <mu-list-item button :ripple="false" v-if="item.goState===0">
                         <mu-button color="primary" textColor="black" @click="send">发货</mu-button>
-                        <mu-button color="warning" textColor="black">取消发货</mu-button>
+                        <mu-button color="warning" textColor="black" @click="reset">取消发货</mu-button>
                     </mu-list-item>
                 </mu-list>
             </div>
@@ -154,7 +160,6 @@
             }
         },
         methods:{
-
             openFullscreenDialog () {
                 this.openFullscreen = true;
             },
@@ -163,7 +168,10 @@
             },
             send(){
                 this.closeFullscreenDialog()
-                Message.confirm('确认发货','消息提示').then(res=>{
+
+                let info = orderInfo.orderIsPay===1?'对方已付款':'对方未付款'
+
+                Message.confirm('确认发货,'+info,'消息提示').then(res=>{
                     let {result}=res
                     if(result){
                         let url = `/GoodsOrder/update/${this.item.goId}`
@@ -204,8 +212,6 @@
                 })
             },
             show(item){
-
-
                 this.item=item
                 http.get(`/order/select/${item.goOid.orderId}`).then(res=>{
 
@@ -222,6 +228,35 @@
                 console.log(item.goOid.orderId)
                 this.openFullscreenDialog();
 
+            },
+            reset(){
+                Message.prompt('请输入取消原因').then(res=>{
+
+                    let {result,value} =res
+                    let a= value===undefined?'':value.trim()
+                    if(a.length<30&&a.length>0){
+                        let postData = `id=${this.item.goId}&res=${a}`;
+                        http.post(`/GoodsOrder/reset`,postData).then(res=>{
+
+                            let {code,message}=res.data
+                            console.log(res.data)
+                            if(code==='1'){
+                                this.item.goState=-1;
+
+                                this.item.goRes=a;
+                            }
+                            Message.alert(message)
+                        }).catch(err=>{
+                            console.log(err)
+                            Message.alert("当前访问人数太多了，请稍后再试！")
+                        })
+                    }else{
+
+                        Message.alert('0到30字之内')
+
+                    }
+                    console.log(res)
+                })
             }
         },
         computed :{

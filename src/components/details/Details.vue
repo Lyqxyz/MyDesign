@@ -66,8 +66,8 @@
                     this.info = res.data.info.data;
                     this.info.img= img;
                     this.user= this.info.shUser
-                    console.log(this.info)
                 }).catch(err=>{
+                    console.log(err)
                 })
                 api.get(`/bookDes/search/${id}`).then(res=>{
                     console.log(res.data.info.BookDesInfo[0])
@@ -103,7 +103,6 @@
         data(){
 
             return {
-
                 info:{},
                 user:{},
                 book:{},
@@ -123,6 +122,17 @@
                         let {result} = res
                         this.$router.replace({name:'Login'})
                     })
+                    return;
+                }
+
+                let uid2 = this.info.shUser.userId
+
+                let uid=user.userId;
+
+                console.log(uid2 ,uid,uid2===uid)
+                if(uid===uid2){
+
+                    Message.alert('不能加入自己发布的商品')
                     return;
                 }
 
@@ -225,8 +235,6 @@
                     Message.alert('当前访问人数太多了','消息提示')
 
                 })
-
-
 
             },
 
