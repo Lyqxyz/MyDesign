@@ -3,6 +3,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import routes from './routes'
+
 import storage from '../assets/utils/StorageUtils'
 
 import Message from 'muse-ui-message/dist/muse-ui-message'

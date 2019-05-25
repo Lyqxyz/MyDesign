@@ -10,7 +10,9 @@ import 'dayjs/locale/zh-cn'
 import 'muse-ui/dist/muse-ui.css';
 
 dayjs.extend(relativeTime)
+
 dayjs.locale('zh-cn')
+
 Vue.use(MuseUI)
 
 Vue.filter('url',(value)=>{

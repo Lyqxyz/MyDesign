@@ -10,6 +10,9 @@
     import Header from "./components/index/Header";
     import Cen from './components/index/Center'
     import Goods from './components/index/Goods'
+
+    import isMobile from '../src/assets/utils/IsMobile'
+
     export default {
         name: 'app',
         components: {Goods,Header,Cen},
@@ -22,6 +25,13 @@
             }
         },
         created() {
+
+            if(!isMobile){
+                this.$router.replace({name:'notMobile'})
+                console.log('请用手机访问')
+            }else{
+                console.log('是手机访问')
+            }
 
         },
         methods: {

@@ -20,7 +20,7 @@ import UpdatePic from '../components/updatePic/UpdatePic'
 import UpdatePhoto from '../components/updatePhoto/UpdatePhoto'
 import Find from '../components/find/Find'
 import Forget from '../components/forget/Forget'
-
+import NotMobile from '../components/error/NotMobile'
 export default [
     {
         path:'/',
@@ -50,6 +50,7 @@ export default [
     {path:'/updatePhoto',components:{'header':UpdatePhoto},name:'updatePhoto',meta:{isLogin:true}},
     {path:'/find',components:{'header':Find},name:'find'},
     {path:'/forget',components:{'header':Forget},name:'forget'},
+    {path:'/notMobile',components:{'header':NotMobile},name:'notMobile'},
     {path :'*',redirect:'/'}
 
 ]
