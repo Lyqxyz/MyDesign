@@ -10,7 +10,7 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "dayjs": "^1.8.12",
     "mockjs": "^1.0.1-beta3",
     "muse-ui": "^3.0.2",
